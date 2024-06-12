@@ -3,38 +3,36 @@ import java.lang.*;
 
 class Solution {
     /**
-    Return the largest prime factor of n. Assume n > 1 and is not a prime.
-    >>> largestPrimeFactor(13195)
-    29
-    >>> largestPrimeFactor(2048)
-    2
+    sumToN is a function that sums numbers from 1 to n.
+    >>> sumToN(30)
+    465
+    >>> sumToN(100)
+    5050
+    >>> sumToN(5)
+    15
+    >>> sumToN(10)
+    55
+    >>> sumToN(1)
+    1
      */
-    public int largestPrimeFactor(int n) {
+    public int sumToN(int n) {
 
-        int largest = 1;
-        for (int j = 2; j <= n; j++) {
-            if (n % j == 0) {
-                boolean is_prime = j >= 2;
-                for (int i = 2; i < j - 1; i++) {
-                    if (n % i == 0) {
-                        is_prime = false;
-                        break;
-                    }
-                }
-                if (is_prime) {
-                    largest = Math.max(largest, j);
-                }
-            }
+        int result = 0;
+        for (int i = 1; i < n; i++) {
+            result += i;
         }
-        return largest;
+        return result;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.largestPrimeFactor(2048) ==2,
-                s.largestPrimeFactor(13195) == 29
+                s.sumToN(1) == 1,
+                s.sumToN(5) == 15,
+                s.sumToN(10) == 55,
+                s.sumToN(30) == 465,
+                s.sumToN(100) == 5050
         );
         if (correct.contains(false)) {
             throw new AssertionError();
