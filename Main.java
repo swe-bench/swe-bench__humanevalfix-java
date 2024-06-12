@@ -3,28 +3,53 @@ import java.lang.*;
 
 class Solution {
     /**
-    returns encoded string by cycling groups of three characters.
+    primeFib returns n-th number that is a Fibonacci number and it's also prime.
+    >>> primeFib(1)
+    2
+    >>> primeFib(2)
+    3
+    >>> primeFib(3)
+    5
+    >>> primeFib(4)
+    13
+    >>> primeFib(5)
+    89
      */
-    public String encodeCyclic(String s) {
-        // split string to groups. Each of length 3.
-        List<String> groups = new ArrayList<>();
-        for (int i = 0; i < s.length(); i += 3) {
-            groups.add(s.substring(i, Math.min(i + 3, s.length())));
-        }
-        // cycle elements in each group. Unless group has fewer elements than 3.
-        for (int i = 0; i < groups.size(); i++) {
-            if (groups.get(i).length() == 3) {
-                groups.set(i, groups.get(i).substring(1) + groups.get(i).charAt(0));
+    public int primeFib(int n) {
+
+        int f0 = 0, f1 = 0;
+        while (true) {
+            int p = f0 + f1;
+            boolean is_prime = p >= 2;
+            for (int k = 2; k < Math.min(Math.sqrt(p), p); k++) {
+                if (p % k == 0) {
+                    is_prime = false;
+                    break;
+                }
             }
+            if (is_prime) {
+                n -= 1;
+            }
+            if (n == 0) {
+                return p;
+            }
+            f0 = f1;
+            f1 = p;
         }
-        return String.join("", groups);
     }
-
-    /**
-    takes as input string encoded with encodeCyclic function. Returns decoded string.
-     */
-    public String decodeCyclic(String s) {
-
-        return encodeCyclic(s);
+}
+public class Main {
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        List<Boolean> correct = Arrays.asList(
+                s.primeFib(1) == 2,
+                s.primeFib(2) == 3,
+                s.primeFib(3) == 5,
+                s.primeFib(4) == 13,
+                s.primeFib(5) == 89
+        );
+        if (correct.contains(false)) {
+            throw new AssertionError();
+        }
     }
 }
