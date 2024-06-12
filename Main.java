@@ -3,34 +3,53 @@ import java.lang.*;
 
 class Solution {
     /**
-    Find how many times a given substring can be found in the original string. Count overlaping cases.
-    >>> howManyTimes("", "a")
-    0
-    >>> howManyTimes("aaa", "a")
-    3
-    >>> howManyTimes("aaaa", "aa")
-    3
+    Input is a space-delimited string of numberals from 'zero' to 'nine'.
+    Valid choices are 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight' and 'nine'.
+    Return the string with numbers sorted from smallest to largest
+    >>> sortNumbers("three one five")
+    "one three five"
      */
-    public int howManyTimes(String string, String substring) {
+    public String sortNumbers(String numbers) {
 
-        int times = 0;
-
-        for (int i = 0; i < string.length() - substring.length(); i++) {
-            if (string.substring(i, i + substring.length()).equals(substring)) {
-                times += 1;
+        String[] nums = numbers.split(" ");
+        List<Integer> num = new ArrayList<>();
+        for (String string : nums) {
+            switch (string) {
+                case "zero" -> num.add(0);
+                case "one" -> num.add(1);
+                case "two" -> num.add(2);
+                case "three" -> num.add(3);
+                case "four" -> num.add(4);
+                case "five" -> num.add(5);
+                case "six" -> num.add(6);
+                case "seven" -> num.add(7);
+                case "eight" -> num.add(8);
+                case "nine" -> num.add(9);
             }
         }
-
-        return times;
+        List<String> result = new ArrayList<>();
+        for (int m : num) {
+            switch (m) {
+                case 0 -> result.add("zero");
+                case 1 -> result.add("one");
+                case 2 -> result.add("two");
+                case 3 -> result.add("three");
+                case 4 -> result.add("four");
+                case 5 -> result.add("five");
+                case 6 -> result.add("six");
+                case 7 -> result.add("seven");
+                case 8 -> result.add("eight");
+                case 9 -> result.add("nine");
+            }
+        }
+        return String.join(" ", result);
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.howManyTimes("", "a") == 0,
-                s.howManyTimes("aaa", "a") == 3,
-                s.howManyTimes("aaaa", "aa") == 3
+                s.sortNumbers("three one five").equals("one three five")
         );
         if (correct.contains(false)) {
             throw new AssertionError();
