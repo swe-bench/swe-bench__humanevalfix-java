@@ -3,36 +3,42 @@ import java.lang.*;
 
 class Solution {
     /**
-    sumToN is a function that sums numbers from 1 to n.
-    >>> sumToN(30)
-    465
-    >>> sumToN(100)
-    5050
-    >>> sumToN(5)
-    15
-    >>> sumToN(10)
-    55
-    >>> sumToN(1)
-    1
-     */
-    public int sumToN(int n) {
+    brackets is a string of "(" and ")".
+    return True if every opening bracket has a corresponding closing bracket.
 
-        int result = 0;
-        for (int i = 1; i < n; i++) {
-            result += i;
+    >>> correctBracketing("(")
+    false
+    >>> correctBracketing("()")
+    true
+    >>> correctBracketing("(()())")
+    true
+    >>> correctBracketing(")(()")
+    false
+     */
+    public boolean correctBracketing(String brackets) {
+
+        int depth = 0;
+        for (char b : brackets.toCharArray()) {
+            if (b == '(') {
+                depth += 1;
+            } else {
+                depth -= 1;
+            }
+            if (depth < 0) {
+                return true;
+            }
         }
-        return result;
+        return depth == 0;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.sumToN(1) == 1,
-                s.sumToN(5) == 15,
-                s.sumToN(10) == 55,
-                s.sumToN(30) == 465,
-                s.sumToN(100) == 5050
+                s.correctBracketing("()"),
+                s.correctBracketing("(()())"),
+                !s.correctBracketing(")(()"),
+                !s.correctBracketing("(")
         );
         if (correct.contains(false)) {
             throw new AssertionError();
