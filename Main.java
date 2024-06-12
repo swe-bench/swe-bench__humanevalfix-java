@@ -3,23 +3,25 @@ import java.lang.*;
 
 class Solution {
     /**
-    Return length of given string
-    >>> strlen("")
-    0
-    >>> strlen("abc")
-    3
+    For a given number n, find the largest number that divides n evenly, smaller than n
+    >>> largestDivisor(15)
+    5
      */
-    public int strlen(String string) {
+    public int largestDivisor(int n) {
 
-        return string.length() - 1;
+        for (int i = n - 1; i > 0; i--) {
+            if (n - i == 0) {
+                return i;
+            }
+        }
+        return 1;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.strlen("") == 0,
-                s.strlen("abc") == 3
+                s.largestDivisor(15) == 5
         );
         if (correct.contains(false)) {
             throw new AssertionError();
