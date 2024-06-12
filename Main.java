@@ -3,46 +3,51 @@ import java.lang.*;
 
 class Solution {
     /**
-    Write a function that accepts two lists of strings and returns the list that has
-    total number of chars in the all strings of the list less than the other list.
-
-    if the two lists have the same number of chars, return the first list.
-
-    Examples
-    totalMatch(Arrays.asList(), Arrays.asList()) -> []
-    totalMatch(Arrays.asList("hi", "admin"), Arrays.asList("hI", "Hi")) -> ["hI", "Hi"]
-    totalMatch(Arrays.asList("hi", "admin"), Arrays.asList("hi", "hi", "admin", "project")) -> ["hi", "admin"]
-    totalMatch(Arrays.asList("hi", "admin"), Arrays.asList("hI", "hi", "hi")) -> ["hI", "hi", "hi"]
-    totalMatch(Arrays.asList("4"), Arrays.asList("1", "2", "3", "4", "5")) -> ["4"]
+    Write a function that returns true if the given number is the multiplication of 3 prime numbers
+    and false otherwise.
+    Knowing that (a) is less then 100.
+    Example:
+    isMultiplyPrime(30) == true
+    30 = 2 * 3 * 5
      */
-    public List<String> totalMatch(List<String> lst1, List<String> lst2) {
+    public boolean isMultiplyPrime(int a) {
 
-        int l1 = 0;
-        for (String st : lst1) {
-            l1 += st.length();
+        class IsPrime {
+            public static boolean is_prime(int n) {
+                for (int j = 0; j < n; j++) {
+                    if (n % j == 0) {
+                        return false;
+                    }
+                }
+                return true;
+            }
         }
-
-        int l2 = 0;
-        for (String st : lst2) {
-            l2 += st.length();
+        for (int i = 2; i < 101; i++) {
+            if (!IsPrime.is_prime(i)) {
+                continue;
+            }
+            for (int j = i; j < 101; j++) {
+                if (!IsPrime.is_prime(j)) {
+                    continue;
+                }
+                for (int k = j; k < 101; k++) {
+                    if (!IsPrime.is_prime(k)) {
+                        continue;
+                    }
+                    if (i * j * k == a) {
+                        return true;
+                    }
+                }
+            }
         }
-
-        if (l1 <= l2) {
-            return lst2;
-        } else {
-            return lst1;
-        }
+        return false;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.totalMatch(new ArrayList<>(List.of()), new ArrayList<>(List.of())).equals(List.of()),
-                s.totalMatch(new ArrayList<>(Arrays.asList("hi", "admin")), new ArrayList<>(Arrays.asList("hi", "hi", "admin", "project"))).equals(Arrays.asList("hi", "admin")),
-                s.totalMatch(new ArrayList<>(List.of("4")), new ArrayList<>(Arrays.asList("1", "2", "3", "4", "5"))).equals(List.of("4")),
-                s.totalMatch(new ArrayList<>(Arrays.asList("hi", "admin")), new ArrayList<>(Arrays.asList("hI", "Hi"))).equals(Arrays.asList("hI", "Hi")),
-                s.totalMatch(new ArrayList<>(Arrays.asList("hi", "admin")), new ArrayList<>(Arrays.asList("hI", "hi", "hi"))).equals(Arrays.asList("hI", "hi", "hi"))
+                s.isMultiplyPrime(30)
         );
         if (correct.contains(false)) {
             throw new AssertionError();
