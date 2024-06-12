@@ -3,31 +3,49 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given a string s, count the number of uppercase vowels in even indices.
-    
-    For example:
-    countUpper("aBCdEf") returns 1
-    countUpper("abcdefg") returns 0
-    countUpper("dBBE") returns 0
-     */    
-    public int countUpper(String s) {
+    Create a function that takes a value (string) representing a number
+    and returns the closest integer to it. If the number is equidistant
+    from two integers, round it away from zero.
 
-        int count = 0;
-        for (int i = 0; i < s.length(); i += 2) {
-            if ("AEIOU".indexOf(s.charAt(i)) != -1) {
-                count += 2;
+    Examples
+    >>> closest_integer("10")
+    10
+    >>> closest_integer("15.3")
+    15
+
+    Note:
+    Rounding away from zero means that if the given number is equidistant
+    from two integers, the one you should return is the one that is the
+    farthest from zero. For example closest_integer("14.5") should
+    return 15 and closest_integer("-14.5") should return -15.
+     */
+    public int countUpper(String value) {
+
+        if (value.contains(".")) {
+            while (value.charAt(value.length() - 1) == '0') {
+                value = value.substring(0, value.length() - 1);
             }
         }
-        return count;
+        double num = Double.parseDouble(value);
+        int res = 0;
+        if (value.substring(Math.max(value.length() - 2, 0)).equals(".5")) {
+            if (num > 0) {
+                res = (int) Math.floor(num);
+            } else {
+                res = (int) Math.ceil(num);
+            }
+        } else if(value.length() > 0) {
+            res = (int) Math.round(num);
+        }
+        return res;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.countUpper("aBCdEf")  == 1,
-                s.countUpper("abcdefg") == 0,
-                s.countUpper("dBBE") == 0
+                s.countUpper("10") == 10,
+                s.countUpper("15.3") == 15
         );
         if (correct.contains(false)) {
             throw new AssertionError();
