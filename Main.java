@@ -3,26 +3,24 @@ import java.lang.*;
 
 class Solution {
     /**
-    Return the number of times the digit 7 appears in integers less than n which are divisible by 11 or 13.
-    >>> fizzBuzz(50)
-    0
-    >>> fizzBuzz(78)
-    2
-    >>> fizzBuzz(79)
-    3
+    This function takes a list l and returns a list l' such that
+    l' is identical to l in the odd indicies, while its values at the even indicies are equal
+    to the values of the even indicies of l, but sorted.
+    >>> sortEven(Arrays.asList(1, 2, 3))
+    [1, 2, 3]
+    >>> sortEven(Arrays.asList(5, 6, 3, 4))
+    [3, 6, 5, 4]
      */
-    public int fizzBuzz(int n) {
+    public List<Integer> sortEven(List<Integer> l) {
 
-        int result = 0;
-        for (int i = 1; i < n; i++) {
-            if (i % 11 == 0 && i % 13 == 0) {
-                char[] digits = String.valueOf(i).toCharArray();
-                for (char c : digits) {
-                    if (c == '7') {
-                        result += 1;
-                    }
-                }
-            }
+        List<Integer> even = new ArrayList<>();
+        for (int i = 0; i < l.size(); i += 2) {
+            even.add(l.get(i));
+        }
+        Collections.sort(l);
+        List<Integer> result = l;
+        for (int i = 0; i < l.size(); i += 2) {
+            result.set(i, even.get(i / 2));
         }
         return result;
     }
@@ -31,9 +29,8 @@ public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.fizzBuzz(50) == 0,
-                s.fizzBuzz(78) == 2,
-                s.fizzBuzz(79) == 3
+                s.sortEven(new ArrayList<>(Arrays.asList(1, 2, 3))).equals(Arrays.asList(1, 2, 3)),
+                s.sortEven(new ArrayList<>(Arrays.asList(5,6,3,4))).equals(Arrays.asList(3,6,5,4))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
