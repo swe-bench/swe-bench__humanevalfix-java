@@ -1,44 +1,31 @@
+import java.math.BigInteger;
+import java.security.*;
 import java.util.*;
 import java.lang.*;
 
 class Solution {
     /**
-    You are given a string s.
-    if s[i] is a letter, reverse its case from lower to upper or vise versa,
-    otherwise keep it as it is.
-    If the string contains no letters, reverse the string.
-    The function should return the resulted string.
-    Examples
-    solve("1234") = "4321"
-    solve("ab") = "AB"
-    solve("#a@C") = "#A@c"
+    Given a string "text", return its md5 hash equivalent string with length being 32.
+    If "text" is an empty string, return Optional.empty().
+    
+    >>> stringToMd5("Hello world") == "3e25960a79dbc69b674cd4ec67a72c62"
      */
-    public String solve(String s) {
+    public Optional<String> stringToMd5(String text) throws NoSuchAlgorithmException {
 
-        boolean flag = true;
-        StringBuilder new_string = new StringBuilder();
-        for (char i : s.toCharArray()) {
-            if (Character.isUpperCase(i)) {
-                new_string.append(Character.toLowerCase(i));
-            } else if (Character.isLowerCase(i)) {
-                new_string.append(Character.toUpperCase(i));
-            } else {
-                new_string.append(i);
-            }
+        if (text.isEmpty()) {
+            return Optional.empty();
         }
-        if (flag) {
-            new_string.reverse();
-        }
-        return new_string.toString();
+
+        String md5 = new BigInteger(1, java.security.MessageDigest.getInstance("MD5").digest(text.getBytes())).toString(16);
+        md5 = "0".repeat(16 - md5.length()) + md5;
+        return Optional.of(md5);
     }
 }
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchAlgorithmException {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.solve("1234"), "4321"),
-                Objects.equals(s.solve("ab"), "AB"),
-                Objects.equals(s.solve("#a@C"), "#A@c")
+                s.stringToMd5("Hello world").get().equals("3e25960a79dbc69b674cd4ec67a72c62")
         );
         if (correct.contains(false)) {
             throw new AssertionError();
