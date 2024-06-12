@@ -3,49 +3,42 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given a positive integer n, return a tuple that has the number of even and odd
-    integer palindromes that fall within the range(1, n), inclusive.
-
-    Example 1:
-
-        Input: 3
-        Output: (1, 2)
-        Explanation:
-        Integer palindrome are 1, 2, 3. one of them is even, and two of them are odd.
-
-    Example 2:
-
-        Input: 12
-        Output: (4, 6)
-        Explanation:
-        Integer palindrome are 1, 2, 3, 4, 5, 6, 7, 8, 9, 11. four of them are even, and 6 of them are odd.
-
-    Note:
-        1. 1 <= n <= 10^3
-        2. returned tuple has the number of even and odd integer palindromes respectively.
+    Write a function countNums which takes an array of integers and returns
+    the number of elements which has a sum of digits > 0.
+    If a number is negative, then its first signed digit will be negative:
+    e.g. -123 has signed digits -1, 2, and 3.
+    >>> countNums(Arrays.asList()) == 0
+    >>> countNums(Arrays.asList(-1, 11, -11)) == 1
+    >>> countNums(Arrays.asList(1, 1, 2)) == 3
      */
-    public List<Integer> evenOddPalindrome(int n) {
+    public int countNums(List<Integer> arr) {
 
-        int even_palindrome_count = 0, odd_palindrome_count = 0;
-
-        for (int i = 1; i < n; i++) {
-            if (String.valueOf(i).equals(new StringBuilder(String.valueOf(i)).reverse().toString())) {
-                if (i % 2 == 1) {
-                    odd_palindrome_count += 1;
-                } else {
-                    even_palindrome_count += 1;
-                }
+        int count = 0;
+        for (int n: arr) {
+            int neg = 1;
+            if (n < 0) {
+                n = -n;
+                neg = -1;
+            }
+            List<Integer> digits = new ArrayList<>();
+            for (char digit : String.valueOf(n).toCharArray()) {
+                digits.add(digit - '0');
+            }
+            digits.set(0, digits.get(0) * neg * -1);
+            if (digits.stream().reduce(0, Integer::sum) > 0) {
+                count += 1;
             }
         }
-        return Arrays.asList(even_palindrome_count, odd_palindrome_count);
+        return count;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.evenOddPalindrome(12).equals(Arrays.asList(4, 6)),
-                s.evenOddPalindrome(3).equals(Arrays.asList(1, 2))
+                s.countNums(List.of()) == 0,
+                s.countNums(Arrays.asList(-1, 11, -11)) == 1,
+                s.countNums(Arrays.asList(1, 1, 2)) == 3
         );
         if (correct.contains(false)) {
             throw new AssertionError();
