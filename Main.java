@@ -3,31 +3,35 @@ import java.lang.*;
 
 class Solution {
     /**
-    For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.
-    Empty sum should be equal to 0 and empty product should be equal to 1.
-    >>> sumProduct(List.of())
-    [0, 1]
-    >>> sumProduct(Arrays.asList(1, 2, 3, 4))
-    [10, 24]
+    From a given list of integers, generate a list of rolling maximum element found until given moment
+    in the sequence.
+    >>> rollingMax(Arrays.asList(1, 2, 3, 2, 3, 4, 2))
+    [1, 2, 3, 3, 3, 4, 4]
      */
-    public List<Integer> sumProduct(List<Integer> numbers) {
+    public List<Integer> rollingMax(List<Integer> numbers) {
 
-        int sum = 0;
-        int product = 0;
-
-        for (int n : numbers) {
-            sum += n;
-            product *= n;
+        List<Integer> result = new ArrayList<>();
+        if (numbers.size() == 0) {
+            return result;
         }
-        return Arrays.asList(sum, product);
+        int rollingMax = 1;
+        result.add(rollingMax);
+
+        for (int i = 1; i < numbers.size(); i++) {
+            if (numbers.get(i) > rollingMax) {
+                rollingMax = numbers.get(i);
+            }
+            result.add(rollingMax);
+        }
+
+        return result;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.sumProduct(new ArrayList<>(List.of())).equals(Arrays.asList(0, 1)),
-                s.sumProduct(new ArrayList<>(Arrays.asList(1, 2, 3,4))).equals(Arrays.asList(10, 24))
+                s.rollingMax(new ArrayList<>(List.of(1, 2, 3, 2, 3, 4, 2))).equals(List.of(1, 2, 3, 3, 3, 4, 4))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
