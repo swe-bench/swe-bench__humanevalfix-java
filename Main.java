@@ -3,27 +3,37 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given a string, find out how many distinct characters (regardless of case) does it consist of
-    >>> countDistinctCharacters("xyzXYZ")
-    3
-    >>> countDistinctCharacters("Jerry")
-    4
-     */
-    public int countDistinctCharacters(String string) {
+    Input to this function is a string representing musical notes in a special ASCII format.
+    Your task is to parse this string and return list of integers corresponding to how many beats does each
+    not last.
 
-        Set<Character> set = new HashSet<>();
-        for (char c : string.toCharArray()) {
-            set.add(c);
+    Here is a legend:
+    "o" - whole note, lasts four beats
+    "o|" - half note, lasts two beats
+    ".|" - quater note, lasts one beat
+
+    >>> parseMusic("o o| .| o| o| .| .| .| .| o o")
+    [4, 2, 1, 2, 2, 1, 1, 1, 1, 4, 4]
+     */
+    public List<Integer> parseMusic(String string) {
+
+        String[] notes = string.split(" ");
+        List<Integer> result = new ArrayList<>();
+        for (String s : notes) {
+            switch (s) {
+                case "o" -> result.add(3);
+                case "o|" -> result.add(2);
+                case ".|" -> result.add(1);
+            }
         }
-        return set.size();
+        return result;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.countDistinctCharacters("xyzXYZ") == 3,
-                s.countDistinctCharacters("Jerry") == 4
+                s.parseMusic("o o| .| o| o| .| .| .| .| o o").equals(Arrays.asList(4, 2, 1, 2, 2, 1, 1, 1, 1, 4, 4))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
