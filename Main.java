@@ -3,39 +3,25 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given a positive integer, obtain its roman numeral equivalent as a string,
-    and return it in lowercase.
-    Restrictions: 1 <= num <= 1000
-
-    Examples:
-    >>> intToMiniRoman(19) == "xix"
-    >>> intToMiniRoman(152) == "clii"
-    >>> intToMiniRoman(426) == "cdxxvi"
+    Given the lengths of the three sides of a triangle. Return true if the three
+    sides form a right-angled triangle, false otherwise.
+    A right-angled triangle is a triangle in which one angle is right angle or
+    90 degree.
+    Example:
+    rightAngleTriangle(3, 4, 5) == true
+    rightAngleTriangle(1, 2, 3) == false
      */
-    public String intToMiniRoman(int number) {
+    public boolean rightAngleTriangle(int a, int b, int c) {
 
-        List<Integer> num = Arrays.asList(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000);
-        List<String> sym = Arrays.asList("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M");
-        int i = 12;
-        String res = "";
-        while (number > 0) {
-            int div = number / num.get(i);
-            while (div != 0) {
-                res += sym.get(i);
-                div -= 1;
-            }
-            i -= 1;
-        }
-        return res.toLowerCase();
+        return c * c == a * a + b * b;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.intToMiniRoman(19), "xix"),
-                Objects.equals(s.intToMiniRoman(152), "clii"),
-                Objects.equals(s.intToMiniRoman(426), "cdxxvi")
+                s.rightAngleTriangle(3, 4, 5) == true,
+                s.rightAngleTriangle(1, 2, 3) == false
         );
         if (correct.contains(false)) {
             throw new AssertionError();
