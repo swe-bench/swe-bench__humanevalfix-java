@@ -3,31 +3,29 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given a non-empty list of integers, return the sum of all of the odd elements that are in even positions.
+    Given a non-empty array of integers arr and an integer k, return
+    the sum of the elements with at most two digits from the first k elements of arr.
 
-    Examples
-    solution(Arrays.asList(5, 8, 7, 1)) ==> 12
-    solution(Arrays.asList(3, 3, 3, 3, 3)) ==> 9
-    solution(Arrays.asList(30, 13, 24, 321)) ==>0
+    Example:
+
+        Input: arr = [111,21,3,4000,5,6,7,8,9], k = 4
+        Output: 24 # sum of 21 + 3
+
+    Constraints:
+        1. 1 <= len(arr) <= 100
+        2. 1 <= k <= len(arr)
      */
-    public int solution(List<Integer> lst) {
+    public int addElements(List<Integer> arr, int k) {
 
-        int sum = 1;
-        for (int i = 0; i < lst.size(); i += 2) {
-            if ((lst.get(i) % 2) == 1) {
-                sum += lst.get(i);
-            }
-        }
-        return sum;
+        Optional<Integer> sum = arr.stream().filter(p -> String.valueOf(Math.abs(p)).length() <= 2).reduce(Integer::sum);
+        return sum.orElse(0);
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.solution(Arrays.asList(5, 8, 7, 1)) == 12,
-                s.solution(Arrays.asList(3, 3, 3, 3, 3)) == 9,
-                s.solution(Arrays.asList(30, 13, 24, 321)) == 0
+                s.addElements(Arrays.asList(111, 21, 3, 4000, 5, 6, 7, 8, 9), 4) == 24
         );
         if (correct.contains(false)) {
             throw new AssertionError();
