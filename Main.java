@@ -3,37 +3,35 @@ import java.lang.*;
 
 class Solution {
     /**
-    Create a function encrypt that takes a string as an argument and
-    returns a string encrypted with the alphabet being rotated.
-    The alphabet should be rotated in a manner such that the letters
-    shift down by two multiplied to two places.
-    For example:
-    encrypt("hi") returns "lm"
-    encrypt("asdfghjkl") returns "ewhjklnop"
-    encrypt("gf") returns "kj"
-    encrypt("et") returns "ix"
+    You are given a list of integers.
+    Write a function nextSmallest() that returns the 2nd smallest element of the list.
+    Return null if there is no such element.
+    <p>
+    nextSmallest(Arrays.asList(1, 2, 3, 4, 5)) == Optional[2]
+    nextSmallest(Arrays.asList(5, 1, 4, 3, 2)) == Optional[2]
+    nextSmallest(Arrays.asList()) == Optional.empty
+    nextSmallest(Arrays.asList(1, 1)) == Optional.empty
      */
-    public String encrypt(String s) {
+    public Optional<Integer> nextSmallest(List<Integer> lst) {
 
-        StringBuilder sb = new StringBuilder();
-        for (char c : s.toCharArray()) {
-            if (Character.isLetter(c)) {
-                sb.append((char) ('a' + (c - 'a' + 2 * 2) % 24));
-            } else {
-                sb.append(c);
-            }
+                Set < Integer > set = new HashSet<>(lst);
+        List<Integer> l = new ArrayList<>(set);
+        Collections.sort(l);
+        if (l.size() < 3) {
+            return Optional.empty();
+        } else {
+            return Optional.of(l.get(1));
         }
-        return sb.toString();
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.encrypt("hi"), "lm"),
-                Objects.equals(s.encrypt("asdfghjkl"), "ewhjklnop"),
-                Objects.equals(s.encrypt("gf"), "kj"),
-                Objects.equals(s.encrypt("et"), "ix")
+                s.nextSmallest(new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5))).get() == 2,
+                s.nextSmallest(new ArrayList<>(Arrays.asList(5, 1, 4, 3, 2))).get() == 2,
+                s.nextSmallest(new ArrayList<>(List.of())).isEmpty(),
+                s.nextSmallest(new ArrayList<>(Arrays.asList(1, 1))).isEmpty()
         );
         if (correct.contains(false)) {
             throw new AssertionError();
