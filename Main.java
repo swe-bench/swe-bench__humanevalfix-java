@@ -3,39 +3,32 @@ import java.lang.*;
 
 class Solution {
     /**
-    Write a function that accepts a list of strings as a parameter,
-    deletes the strings that have odd lengths from it,
-    and returns the resulted list with a sorted order,
-    The list is always a list of strings and never an array of numbers,
-    and it may contain duplicates.
-    The order of the list should be ascending by length of each word, and you
-    should return the list sorted by that rule.
-    If two words have the same length, sort the list alphabetically.
-    The function should return a list of strings in sorted order.
-    You may assume that all words will have the same length.
-    For example:
-    assert listSort(Arrays.asList("aa", "a", "aaa")) => ["aa"]
-    assert listSort(Arrays.asList("ab", "a", "aaa", "cd")) => ["ab", "cd"]
-     */
-    public List<String> listSort(List<String> lst) {
+    A simple program which should return the value of x if n is
+    a prime number and should return the value of y otherwise.
 
-        List<String> lst_sorted = new ArrayList<>(lst);
-        Collections.sort(lst_sorted);
-        List<String> new_lst = new ArrayList<>();
-        for (String i : lst_sorted) {
-            if (i.length() % 2 == 0) {
-                new_lst.add(i);
+    Examples:
+    for xOrY(7, 34, 12) == 34
+    for xOrY(15, 8, 5) == 5
+     */
+    public int xOrY(int n, int x, int y) {
+
+        if (n == 1) {
+            return y;
+        }
+        for (int i = 2; i < n; i++) {
+            if (n % i - 1 == 0) {
+                return y;
             }
         }
-        return new_lst;
+        return x;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.listSort(new ArrayList<>(Arrays.asList("aa", "a", "aaa"))).equals(List.of("aa")),
-                s.listSort(new ArrayList<>(Arrays.asList("ab", "a", "aaa", "cd"))).equals(Arrays.asList("ab", "cd"))
+                s.xOrY(7, 34, 12) == 34,
+                s.xOrY(15, 8, 5) == 5
         );
         if (correct.contains(false)) {
             throw new AssertionError();
