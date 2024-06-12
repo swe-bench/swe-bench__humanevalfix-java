@@ -1,31 +1,35 @@
-import java.math.BigInteger;
-import java.security.*;
 import java.util.*;
 import java.lang.*;
 
 class Solution {
     /**
-    Given a string "text", return its md5 hash equivalent string with length being 32.
-    If "text" is an empty string, return Optional.empty().
-    
-    >>> stringToMd5("Hello world") == "3e25960a79dbc69b674cd4ec67a72c62"
+    Given two positive integers a and b, return the even digits between a
+    and b, in ascending order.
+
+    For example:
+    generateIntegers(2, 8) => [2, 4, 6, 8]
+    generateIntegers(8, 2) => [2, 4, 6, 8]
+    generateIntegers(10, 14) => []
      */
-    public Optional<String> stringToMd5(String text) throws NoSuchAlgorithmException {
+    public List<Integer> generateIntegers(int a, int b) {
 
-        if (text.isEmpty()) {
-            return Optional.empty();
+        int lower = Math.max(2, Math.min(a, b));
+        int upper = Math.min(8, Math.max(a, b));
+
+        List<Integer> result = new ArrayList<>();
+        for (int i = lower; i < upper; i += 2) {
+            result.add(i);
         }
-
-        String md5 = new BigInteger(1, java.security.MessageDigest.getInstance("MD5").digest(text.getBytes())).toString(16);
-        md5 = "0".repeat(16 - md5.length()) + md5;
-        return Optional.of(md5);
+        return result;
     }
 }
 public class Main {
-    public static void main(String[] args) throws NoSuchAlgorithmException {
+    public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.stringToMd5("Hello world").get().equals("3e25960a79dbc69b674cd4ec67a72c62")
+                s.generateIntegers(2, 8).equals(Arrays.asList(2, 4, 6, 8)),
+                s.generateIntegers(8, 2).equals(Arrays.asList(2, 4, 6, 8)),
+                s.generateIntegers(10, 14).equals(List.of())
         );
         if (correct.contains(false)) {
             throw new AssertionError();
