@@ -3,39 +3,27 @@ import java.lang.*;
 
 class Solution {
     /**
-    From a supplied list of numbers (of length at least two) select and return two that are the closest to each
-    other and return them in order (smaller number, larger number).
-    >>> findClosestElements(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 2.2))
-    [2.0, 2.2]
-    >>> findClosestElements(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 2.0))
-    [2.0, 2.0]
+    Given list of numbers (of at least two elements), apply a linear transform to that list,
+    such that the smallest number will become 0 and the largest will become 1
+    >>> rescaleToUnit(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0))
+    [0.0, 0.25, 0.5, 0.75, 1.0]
      */
-    public List<Double> findClosestElements(List<Double> numbers) {
+    public List<Double> rescaleToUnit(List<Double> numbers) {
 
-        List<Double> closest_pair = new ArrayList<>();
-        closest_pair.add(numbers.get(0));
-        closest_pair.add(numbers.get(1));
-        double distance = Math.abs(numbers.get(1) - numbers.get(0));
-        for (int i = 0; i < numbers.size(); i++) {
-            for (int j = i + 1; j < numbers.size(); j++) {
-                if (Math.abs(numbers.get(i) - numbers.get(j)) > distance) {
-                    closest_pair.clear();
-                    closest_pair.add(numbers.get(i));
-                    closest_pair.add(numbers.get(j));
-                    distance = Math.abs(numbers.get(i) - numbers.get(j));
-                }
-            }
+        double min_number = Collections.min(numbers);
+        double max_number = Collections.max(numbers);
+        List<Double> result = new ArrayList<>();
+        for (double x : numbers) {
+            result.add((x - min_number) / (max_number + min_number));
         }
-        Collections.sort(closest_pair);
-        return closest_pair;
+        return result;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.findClosestElements(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 2.2))).equals(Arrays.asList(2.0, 2.2)),
-                s.findClosestElements(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 2.0))).equals(Arrays.asList(2.0, 2.0))
+                s.rescaleToUnit(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0))).equals(Arrays.asList(0.0, 0.25, 0.5, 0.75, 1.0))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
