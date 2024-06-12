@@ -3,53 +3,39 @@ import java.lang.*;
 
 class Solution {
     /**
-    Input is a space-delimited string of numberals from 'zero' to 'nine'.
-    Valid choices are 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight' and 'nine'.
-    Return the string with numbers sorted from smallest to largest
-    >>> sortNumbers("three one five")
-    "one three five"
+    From a supplied list of numbers (of length at least two) select and return two that are the closest to each
+    other and return them in order (smaller number, larger number).
+    >>> findClosestElements(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 2.2))
+    [2.0, 2.2]
+    >>> findClosestElements(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 2.0))
+    [2.0, 2.0]
      */
-    public String sortNumbers(String numbers) {
+    public List<Double> findClosestElements(List<Double> numbers) {
 
-        String[] nums = numbers.split(" ");
-        List<Integer> num = new ArrayList<>();
-        for (String string : nums) {
-            switch (string) {
-                case "zero" -> num.add(0);
-                case "one" -> num.add(1);
-                case "two" -> num.add(2);
-                case "three" -> num.add(3);
-                case "four" -> num.add(4);
-                case "five" -> num.add(5);
-                case "six" -> num.add(6);
-                case "seven" -> num.add(7);
-                case "eight" -> num.add(8);
-                case "nine" -> num.add(9);
+        List<Double> closest_pair = new ArrayList<>();
+        closest_pair.add(numbers.get(0));
+        closest_pair.add(numbers.get(1));
+        double distance = Math.abs(numbers.get(1) - numbers.get(0));
+        for (int i = 0; i < numbers.size(); i++) {
+            for (int j = i + 1; j < numbers.size(); j++) {
+                if (Math.abs(numbers.get(i) - numbers.get(j)) > distance) {
+                    closest_pair.clear();
+                    closest_pair.add(numbers.get(i));
+                    closest_pair.add(numbers.get(j));
+                    distance = Math.abs(numbers.get(i) - numbers.get(j));
+                }
             }
         }
-        List<String> result = new ArrayList<>();
-        for (int m : num) {
-            switch (m) {
-                case 0 -> result.add("zero");
-                case 1 -> result.add("one");
-                case 2 -> result.add("two");
-                case 3 -> result.add("three");
-                case 4 -> result.add("four");
-                case 5 -> result.add("five");
-                case 6 -> result.add("six");
-                case 7 -> result.add("seven");
-                case 8 -> result.add("eight");
-                case 9 -> result.add("nine");
-            }
-        }
-        return String.join(" ", result);
+        Collections.sort(closest_pair);
+        return closest_pair;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.sortNumbers("three one five").equals("one three five")
+                s.findClosestElements(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 2.2))).equals(Arrays.asList(2.0, 2.2)),
+                s.findClosestElements(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 2.0))).equals(Arrays.asList(2.0, 2.0))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
