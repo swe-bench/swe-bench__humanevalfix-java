@@ -3,43 +3,37 @@ import java.lang.*;
 
 class Solution {
     /**
-    Everyone knows Fibonacci sequence, it was studied deeply by mathematicians in
-    the last couple centuries. However, what people don't know is Tribonacci sequence.
-    Tribonacci sequence is defined by the recurrence:
-    tri(1) = 3
-    tri(n) = 1 + n / 2, if n is even.
-    tri(n) =  tri(n - 1) + tri(n - 2) + tri(n + 1), if n is odd.
+    Given a positive integer n, return the product of the odd digits.
+    Return 0 if all digits are even.
     For example:
-    tri(2) = 1 + (2 / 2) = 2
-    tri(4) = 3
-    tri(3) = tri(2) + tri(1) + tri(4)
-           = 2 + 3 + 3 = 8
-    You are given a non-negative integer number n, you have to a return a list of the
-    first n + 1 numbers of the Tribonacci sequence.
-    Examples:
-    tri(3) = [1, 3, 2, 8]
+    digits(1)  == 1
+    digits(4)  == 0
+    digits(235) == 15
      */
-    public List<Integer> tri(int n) {
+    public int digits(int n) {
 
-        if (n == 0) {
-            return List.of(1);
-        }
-        List<Integer> my_tri = new ArrayList<>(Arrays.asList(1, 3));
-        for (int i = 2; i <= n; i++) {
-            if (i % 2 == 0) {
-                my_tri.add(i / 2 + 1);
-            } else {
-                my_tri.add(my_tri.get(my_tri.size() - 1) + my_tri.get(my_tri.size() - 2) + i + (i + 3) / 2);
+        int product = 1, odd_count = 0;
+        for (char digit : String.valueOf(n).toCharArray()) {
+            int int_digit = digit - '0';
+            if (int_digit % 2 == 1) {
+                product *= product*int_digit;
+                odd_count += 1;
             }
         }
-        return my_tri;
+        if (odd_count == 0) {
+            return 0;
+        } else {
+            return product;
+        }
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.tri(3).equals(Arrays.asList(1, 3, 2, 8))
+                s.digits(1) == 1,
+                s.digits(4) == 0,
+                s.digits(235) == 15
         );
         if (correct.contains(false)) {
             throw new AssertionError();
