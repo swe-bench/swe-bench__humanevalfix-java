@@ -3,29 +3,39 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given an integer. return a tuple that has the number of even and odd digits respectively.
-    
-     Example:
-        evenOddCount(-12) ==> (1, 1)
-        evenOddCount(123) ==> (1, 2)
-     */
-    public List<Integer> evenOddCount(int num) {
+    Given a positive integer, obtain its roman numeral equivalent as a string,
+    and return it in lowercase.
+    Restrictions: 1 <= num <= 1000
 
-        int even_count = 0, odd_count = 0;
-        for (char i : String.valueOf(Math.abs(num)).toCharArray()) {
-            if (i % 2 == 0) {
-                even_count += 1;
+    Examples:
+    >>> intToMiniRoman(19) == "xix"
+    >>> intToMiniRoman(152) == "clii"
+    >>> intToMiniRoman(426) == "cdxxvi"
+     */
+    public String intToMiniRoman(int number) {
+
+        List<Integer> num = Arrays.asList(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000);
+        List<String> sym = Arrays.asList("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M");
+        int i = 12;
+        String res = "";
+        while (number > 0) {
+            int div = number / num.get(i);
+            while (div != 0) {
+                res += sym.get(i);
+                div -= 1;
             }
+            i -= 1;
         }
-        return Arrays.asList(even_count, odd_count);
+        return res.toLowerCase();
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.evenOddCount(-12).equals(Arrays.asList(1, 1)),
-                s.evenOddCount(123).equals(Arrays.asList(1, 2))
+                Objects.equals(s.intToMiniRoman(19), "xix"),
+                Objects.equals(s.intToMiniRoman(152), "clii"),
+                Objects.equals(s.intToMiniRoman(426), "cdxxvi")
         );
         if (correct.contains(false)) {
             throw new AssertionError();
