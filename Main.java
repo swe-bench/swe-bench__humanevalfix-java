@@ -3,42 +3,29 @@ import java.lang.*;
 
 class Solution {
     /**
-    brackets is a string of "<" and ">".
-    return True if every opening bracket has a corresponding closing bracket.
-    
-    >>> correctBracketing("<")
-    false
-    >>> correctBracketing("<>")
+    Return True is list elements are monotonically increasing or decreasing.
+    >>> monotonic(Arrays.asList(1, 2, 4, 20))
     true
-    >>> correctBracketing("<<><>>")
-    true
-    >>> correctBracketing("><<>")
+    >>> monotonic(Arrays.asList(1, 20, 4, 10))
     false
+    >>> monotonic(Arrays.asList(4, 1, 0, -10))
+    true
      */
-    public boolean correctBracketing(String brackets) {
+    public boolean monotonic(List<Integer> l) {
 
-        int depth = 0;
-        for (char b : brackets.toCharArray()) {
-            if (b == '>') {
-                depth += 1;
-            } else {
-                depth -= 1;
-            }
-            if (depth < 0) {
-                return false;
-            }
-        }
-        return depth == 0;
+        List<Integer> l1 = new ArrayList<>(l), l2 = new ArrayList<>(l);
+        Collections.sort(l1);
+        l2.sort(Collections.reverseOrder());
+        return l.equals(l1) && l.equals(l2);
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.correctBracketing("<>"),
-                s.correctBracketing("<<><>>"),
-                !s.correctBracketing("><<>"),
-                !s.correctBracketing("<")
+                s.monotonic(new ArrayList<>(Arrays.asList(1, 2, 4, 10))),
+                !s.monotonic(new ArrayList<>(Arrays.asList(1, 20, 4, 10))),
+                s.monotonic(new ArrayList<>(Arrays.asList(4, 1, 0, -10)))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
