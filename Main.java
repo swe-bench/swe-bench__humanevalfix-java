@@ -3,65 +3,45 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given two lists operator, and operand. The first list has basic algebra operations, and
-    the second list is a list of integers. Use the two given lists to build the algebric
-    expression and return the evaluation of this expression.
-
-    The basic algebra operations:
-    Addition ( + )
-    Subtraction ( - )
-    Multiplication ( * )
-    Floor division ( / )
-    Exponentiation ( ** )
-
-    Example:
-    operator["+", "*", "-"]
-    array = [2, 3, 4, 5]
-    result = 2 + 3 * 4 - 5
-    => result = 9
-
-    Note:
-        The length of operator list is equal to the length of operand list minus one.
-        Operand is a list of of non-negative integers.
-        Operator list has at least one operator, and operand list has at least two operands.
+    You are given a string s.
+    if s[i] is a letter, reverse its case from lower to upper or vise versa,
+    otherwise keep it as it is.
+    If the string contains no letters, reverse the string.
+    The function should return the resulted string.
+    Examples
+    solve("1234") = "4321"
+    solve("ab") = "AB"
+    solve("#a@C") = "#A@c"
      */
-    public int doAlgebra(List<String> operator, List<Integer> operand) {
+    public String solve(String s) {
 
-        List<String> ops = new ArrayList<>(operator);
-        List<Integer> nums = new ArrayList<>(operand);
-        for (int i = ops.size() - 1; i >= 0; i--) {
-            if (ops.get(i).equals("**")) {
-                nums.set(i, (int) Math.round(Math.pow(nums.get(i + 1), nums.get(i + 1))));
-                nums.remove(i + 1);
-                ops.remove(i);
+        boolean flag = true;
+        StringBuilder new_string = new StringBuilder();
+        for (char i : s.toCharArray()) {
+            if (Character.isUpperCase(i)) {
+                new_string.append(Character.toLowerCase(i));
+            } else if (Character.isLowerCase(i)) {
+                new_string.append(Character.toUpperCase(i));
+            } else {
+                new_string.append(i);
             }
         }
-        for (int i = 0; i < ops.size(); i++) {
-            if (ops.get(i).equals("*")) {
-                nums.set(i, nums.get(i) * nums.get(i + 1));
-                nums.remove(i + 1);
-                ops.remove(i);
-                i--;
-            } else if (ops.get(i).equals("/")) {
-                nums.set(i, nums.get(i) / nums.get(i + 1));
-                nums.remove(i + 1);
-                ops.remove(i);
-                i--;
-            }
+        if (flag) {
+            new_string.reverse();
         }
-        for (int i = 0; i < ops.size(); i++) {
-            if (ops.get(i).equals("+")) {
-                nums.set(i, nums.get(i) + nums.get(i + 1));
-                nums.remove(i + 1);
-                ops.remove(i);
-                i--;
-            } else if (ops.get(i).equals("-")) {
-                nums.set(i, nums.get(i) - nums.get(i + 1));
-                nums.remove(i + 1);
-                ops.remove(i);
-                i--;
-            }
+        return new_string.toString();
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        List<Boolean> correct = Arrays.asList(
+                Objects.equals(s.solve("1234"), "4321"),
+                Objects.equals(s.solve("ab"), "AB"),
+                Objects.equals(s.solve("#a@C"), "#A@c")
+        );
+        if (correct.contains(false)) {
+            throw new AssertionError();
         }
-        return nums.get(0);
     }
 }
