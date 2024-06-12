@@ -3,40 +3,35 @@ import java.lang.*;
 
 class Solution {
     /**
-    The FibFib number sequence is a sequence similar to the Fibbonacci sequnece that's defined as follows:
-    fibfib(0) == 0
-    fibfib(1) == 0
-    fibfib(2) == 1
-    fibfib(n) == fibfib(n-1) + fibfib(n-2) + fibfib(n-3).
-    Please write a function to efficiently compute the n-th element of the fibfib number sequence.
-    >>> fibfib(1)
-    0
-    >>> fibfib(5)
-    4
-    >>> fibfib(8)
-    24
-     */
-    public int fibfib(int n) {
+    Write a function vowelsCount which takes a string representing
+    a word as input and returns the number of vowels in the string.
+    Vowels in this case are 'a', 'e', 'i', 'o', 'u'. Here, 'y' is also a
+    vowel, but only when it is at the end of the given word.
 
-        if (n == 0) {
-            return 0;
+    Example:
+    >>> vowelsCount("abcde")
+    2
+    >>> vowelsCount("ACEDY")
+    3
+     */
+    public int vowelsCount(String s) {
+
+        String vowels = "aeiouyAEIOUY";
+        int n_vowels = 0;
+        for (char c : s.toCharArray()) {
+            if (vowels.indexOf(c) != -1) {
+                n_vowels += 1;
+            }
         }
-        if (n == 1) {
-            return 1;
-        }
-        if (n == 2) {
-            return 2;
-        }
-        return fibfib(n - 1) + fibfib(n - 2) + fibfib(n - 3);
+        return n_vowels;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.fibfib(1) == 0,
-                s.fibfib(5) == 4,
-                s.fibfib(8) == 24
+                s.vowelsCount("abcde") == 2,
+                s.vowelsCount("ACEDY") == 3
         );
         if (correct.contains(false)) {
             throw new AssertionError();
