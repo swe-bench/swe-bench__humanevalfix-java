@@ -3,37 +3,47 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given a positive integer n, return the product of the odd digits.
-    Return 0 if all digits are even.
-    For example:
-    digits(1)  == 1
-    digits(4)  == 0
-    digits(235) == 15
-     */
-    public int digits(int n) {
+    Create a function that takes a string as input which contains only square brackets.
+    The function should return true if and only if there is a valid subsequence of brackets
+    where at least one bracket in the subsequence is nested.
 
-        int product = 1, odd_count = 0;
-        for (char digit : String.valueOf(n).toCharArray()) {
-            int int_digit = digit - '0';
-            if (int_digit % 2 == 1) {
-                product *= product*int_digit;
-                odd_count += 1;
+    isNested("[[]]") -> true
+    isNested("[]]]]]]][[[[[]") -> false
+    isNested("[][]") -> false
+    isNested("[]") -> false
+    isNested("[[][]]") -> true
+    isNested("[[]][[") -> true
+     */
+    public boolean isNested(String string) {
+
+        List<Integer> opening_bracket_index = new ArrayList<>(), closing_bracket_index = new ArrayList<>();
+        for (int i = 0; i < string.length(); i++) {
+            if (string.charAt(i) == '(') {
+                opening_bracket_index.add(i);
+            } else {
+                closing_bracket_index.add(i);
             }
         }
-        if (odd_count == 0) {
-            return 0;
-        } else {
-            return product;
+        Collections.reverse(closing_bracket_index);
+        int i = 0, l = closing_bracket_index.size();
+        for (int idx : opening_bracket_index) {
+            if (i < l && idx < closing_bracket_index.get(i)) {
+                i += 1;
+            }
         }
+        return i >= 2;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.digits(1) == 1,
-                s.digits(4) == 0,
-                s.digits(235) == 15
+                s.isNested("[[]]" ),
+                !s.isNested("[]]]]]]][[[[[]" ),
+                !s.isNested("[][]" ),
+                !s.isNested("[]" ),
+                s.isNested("[[]][[" ),
+                s.isNested("[[][]]" )
         );
         if (correct.contains(false)) {
             throw new AssertionError();
