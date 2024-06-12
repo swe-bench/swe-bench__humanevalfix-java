@@ -3,29 +3,36 @@ import java.lang.*;
 
 class Solution {
     /**
-    Input are two strings a and b consisting only of 1s and 0s.
-    Perform binary XOR on these inputs and return result also as a string.
-    >>> stringXor("010", "110")
-    "100"
+    Out of list of strings, return the longest one. Return the first one in case of multiple
+    strings of the same length. Return None in case the input list is empty.
+    >>> longest(List.of())
+    Optional.empty
+    >>> longest(Arrays.asList("a", "b", "c"))
+    Optional[a]
+    >>> longest(Arrays.asList("a", "bb", "ccc"))
+    Optional[ccc]
      */
-    public String stringXor(String a, String b) {
+    public Optional<String> longest(List<String> strings) {
 
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < a.length(); i++) {
-            if (a.charAt(i) == b.charAt(i)) {
-                result.append("1");
-            } else {
-                result.append("0");
+        if (strings.isEmpty()) {
+            return Optional.empty();
+        }
+        String longest = strings.get(0);
+        for (String s : strings) {
+            if (s.length() < longest.length()) {
+                longest = s;
             }
         }
-        return result.toString();
+        return Optional.of(longest);
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.stringXor("010", "110"), "100")
+                s.longest(new ArrayList<>(List.of())).isEmpty(),
+                Objects.equals(s.longest(new ArrayList<>(Arrays.asList("a", "b", "c"))).get(), "a"),
+                Objects.equals(s.longest(new ArrayList<>(Arrays.asList("a", "bb", "ccc"))).get(), "ccc")
         );
         if (correct.contains(false)) {
             throw new AssertionError();
