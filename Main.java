@@ -3,39 +3,35 @@ import java.lang.*;
 
 class Solution {
     /**
-    Create a function which takes a string representing a file's name, and returns
-    "Yes" if the the file's name is valid, and returns "No" otherwise.
-    A file's name is considered to be valid if and only if all the following conditions
-    are met:
-    - There should not be more than three digits ('0'-'9') in the file's name.
-    - The file's name contains exactly one dot '.'
-    - The substring before the dot should not be empty, and it starts with a letter from
-    the latin alphapet ('a'-'z' and 'A'-'Z').
-    - The substring after the dot should be one of these: ["txt", "exe", "dll"]
-    Examples:
-    file_name_check("example.txt") # => "Yes"
-    file_name_check("1example.dll") # => "No" (the name should start with a latin alphapet letter)
-     */
-    public String filenameCheck(String file_name) {
+    This function will take a list of integers. For all entries in the list, the function shall square the integer entry if its index is a
+    multiple of 3 and will cube the integer entry if its index is a multiple of 4 and not a multiple of 3. The function will not
+    change the entries in the list whose indexes are not a multiple of 3 or 4. The function shall then return the sum of all entries.
 
-        List<String> suf = Arrays.asList("txt", "exe", "dll");
-        String[] lst = file_name.split("\\." );
-        if (lst.length != 2 || lst[0].isEmpty() || !Character.isLetter(lst[0].charAt(0))) {
-            return "No";
+    Examples:
+    For lst = [1,2,3] the output should be 6
+    For lst = []  the output should be 0
+    For lst = [-1,-5,2,-1,-5]  the output should be -126
+     */
+    public int sumSquares(List<Integer> lst) {
+
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < lst.size(); i++) {
+            if (i % 3 == 0) {
+                result.add(lst.get(i) * lst.get(i));
+            } else {
+                result.add(lst.get(i));
+            }
         }
-        int t = (int) lst[0].chars().map(x -> (char) x).filter(Character::isDigit).count();
-        if (t > 3) {
-            return "No";
-        }
-        return "Yes";
+        return result.stream().reduce(Integer::sum).orElse(0);
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.filenameCheck("example.txt" ), "Yes" ),
-                Objects.equals(s.filenameCheck("1example.dll" ), "No" )
+                s.sumSquares(Arrays.asList(1,2,3)) == 6,
+                s.sumSquares(List.of()) == 0,
+                s.sumSquares(Arrays.asList(-1,-5,2,-1,-5)) == -126
         );
         if (correct.contains(false)) {
             throw new AssertionError();
