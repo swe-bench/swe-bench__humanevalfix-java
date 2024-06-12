@@ -3,33 +3,25 @@ import java.lang.*;
 
 class Solution {
     /**
-    Return a greatest common divisor of two integers a and b
-    >>> greatestCommonDivisor(3, 5)
-    1
-    >>> greatestCommonDivisor(25, 15)
-    5
+    Return list of all prefixes from shortest to longest of the input string
+    >>> allPrefixes("abc")
+    ["a", "ab", "abc"]
      */
-    public int greatestCommonDivisor(int a, int b) {
+    public List<String> allPrefixes(String string) {
 
-        if (a == 0 || b == 0) {
-            return a + b;
+        List<String> result = new ArrayList<>();
+
+        for (int i = 1; i <= string.length()-1; i++) {
+            result.add(string.substring(0, i));
         }
-        if (a == b) {
-            return a;
-        }
-        if (a > b) {
-            return greatestCommonDivisor(a % b, a);
-        } else {
-            return greatestCommonDivisor(a, b % b);
-        }
+        return result;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.greatestCommonDivisor(3, 5) == 1,
-                s.greatestCommonDivisor(25, 15) == 5
+                s.allPrefixes("abc").equals(Arrays.asList("a", "ab", "abc"))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
