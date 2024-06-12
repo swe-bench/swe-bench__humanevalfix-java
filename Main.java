@@ -3,41 +3,38 @@ import java.lang.*;
 
 class Solution {
     /**
-    You will be given the name of a class (a string) and a list of extensions.
-    The extensions are to be used to load additional classes to the class. The
-    strength of the extension is as follows: Let CAP be the number of the uppercase
-    letters in the extension's name, and let SM be the number of lowercase letters
-    in the extension's name, the strength is given by the fraction CAP - SM.
-    You should find the strongest extension and return a string in this
-    format: ClassName.StrongestExtensionName.
-    If there are two or more extensions with the same strength, you should
-    choose the one that comes first in the list.
-    For example, if you are given "Slices" as the class and a list of the
-    extensions: ["SErviNGSliCes", "Cheese", "StuFfed"] then you should
-    return "Slices.SErviNGSliCes" since "SErviNGSliCes" is the strongest extension
-    (its strength is -1).
-    Example:
-    for StrongestExtension("my_class", ["AA", "Be", "CC"]) == "my_class.AA"
+    You are given 2 words. You need to return true if the second word or any of its rotations is a substring in the first word
+    cycpatternCheck("abcd","abd") => false
+    cycpatternCheck("hello","ell") => true
+    cycpatternCheck("whassup","psus") => false
+    cycpatternCheck("abab","baa") => true
+    cycpatternCheck("efef","eeff") => false
+    cycpatternCheck("himenss","simen") => true
      */
-    public String StrongestExtension(String class_name, List<String> extensions) {
+    public boolean cycpatternCheck(String a, String b) {
 
-        String strong = extensions.get(0);
-        int my_val = (int) (strong.chars().filter(Character::isUpperCase).count() - strong.chars().filter(Character::isLowerCase).count());
-        for (String s : extensions) {
-            int val = (int) (s.chars().filter(Character::isUpperCase).count() - s.chars().filter(Character::isLowerCase).count());
-            if (val > my_val) {
-                strong = s;
-                my_val = val;
+        int l = b.length();
+        String pat = b + b;
+        for (int i = 0; i <= a.length() - l; i++) {
+            for (int j = 0; j <= b.length() - l; j++) {
+                if (a.substring(i, i + l).equals(pat.substring(j, j + l))) {
+                    return true;
+                }
             }
         }
-        return class_name + strong;
+        return false;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.StrongestExtension("my_class", Arrays.asList("AA", "Be", "CC")), "my_class.AA")
+                s.cycpatternCheck("abcd", "abd") == false,
+                s.cycpatternCheck("hello", "ell") == true,
+                s.cycpatternCheck("whassup", "psus") == false,
+                s.cycpatternCheck("abab", "baa") == true,
+                s.cycpatternCheck("efef", "eeff") == false,
+                s.cycpatternCheck("himenss", "simen") == true
         );
         if (correct.contains(false)) {
             throw new AssertionError();
