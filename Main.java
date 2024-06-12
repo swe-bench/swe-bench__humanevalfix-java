@@ -3,43 +3,35 @@ import java.lang.*;
 
 class Solution {
     /**
-    Check if two words have the same characters.
-    >>> sameChars("eabcdzzzz", "dddzzzzzzzddeddabc")
-    true
-    >>> sameChars("abcd", "dddddddabc")
-    true
-    >>> sameChars("dddddddabc", "abcd")
-    true
-    >>> sameChars("eabcd", "dddddddabc")
-    false
-    >>> sameChars("abcd", "dddddddabce")
-    false
-    >>> sameChars("eabcdzzzz", "dddzzzzzzzddddabc")
-    false
+    Return n-th Fibonacci number.
+    >>> fib(10)
+    55
+    >>> fib(1)
+    1
+    >>> fib(8)
+    21
      */
-    public boolean sameChars(String s0, String s1) {
+    public int fib(int n) {
 
-        Set<Character> set0 = new HashSet<>();
-        for (char c : s0.toCharArray()) {
-            set0.add(c);
+        if (n == 0) {
+            return 0;
         }
-        Set<Character> set1 = new HashSet<>();
-        for (char c : s0.toCharArray()) {
-            set1.add(c);
+        if (n == 1) {
+            return 1;
         }
-        return set0.equals(set1);
+        if (n == 2) {
+            return 2;
+        }
+        return fib(n - 1) + fib(n - 2);
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.sameChars("eabcdzzzz", "dddzzzzzzzddeddabc"),
-                s.sameChars("abcd", "dddddddabc"),
-                s.sameChars("dddddddabc", "abcd"),
-                !s.sameChars("eabcd", "dddddddabc"),
-                !s.sameChars("abcd", "dddddddabcf"),
-                !s.sameChars("eabcdzzzz", "dddzzzzzzzddddabc")
+                s.fib(10) == 55,
+                s.fib(1) == 1,
+                s.fib(8) == 21
         );
         if (correct.contains(false)) {
             throw new AssertionError();
