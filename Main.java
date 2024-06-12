@@ -3,32 +3,46 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given the lengths of the three sides of a triangle. Return the area of
-    the triangle rounded to 2 decimal points if the three sides form a valid triangle.
-    Otherwise return -1
-    Three sides make a valid triangle when the sum of any two sides is greater
-    than the third side.
-    Example:
-    triangleArea(3, 4, 5) == 6.00
-    triangleArea(1, 2, 10) == -1
-     */
-    public double triangleArea(double a, double b, double c) {
+    Write a function that returns True if the object q will fly, and False otherwise.
+    The object q will fly if it's balanced (it is a palindromic list) and the sum of its elements is less than or equal the maximum possible weight w.
 
-        if (a + b <= c || a + c <= b || b + c <= a) {
-            return -1;
+    Example:
+    willItFly(Arrays.asList(1, 2), 5) -> false
+    # 1+2 is less than the maximum possible weight, but it's unbalanced.
+
+    willItFly(Arrays.asList(3, 2, 3), 1) -> false
+    # it's balanced, but 3+2+3 is more than the maximum possible weight.
+
+    willItFly(Arrays.asList(3, 2, 3), 9) -> true
+    # 3+2+3 is less than the maximum possible weight, and it's balanced.
+
+    willItFly(Arrays.asList(3), 5) -> true
+    # 3 is less than the maximum possible weight, and it's balanced.
+     */
+    public boolean willItFly(List<Integer> q, int w) {
+
+        if (q.stream().reduce(0, Integer::sum) > w) {
+            return false;
         }
-        double s = (a + b + c);
-        double area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
-        area = (double) Math.round(area * 100) / 100;
-        return area;
+        int i = 0, j = q.size() - 1;
+        while (i < j) {
+            if (Objects.equals(q.get(i), q.get(j))) {
+                return false;
+            }
+            i += 1;
+            j -= 1;
+        }
+        return true;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.triangleArea(3, 4, 5) == 6.00,
-                s.triangleArea(1, 2, 10) == -1
+                s.willItFly(new ArrayList<>(Arrays.asList(3, 2, 3)), 9),
+                !s.willItFly(new ArrayList<>(Arrays.asList(1, 2)), 5),
+                s.willItFly(new ArrayList<>(List.of(3)), 5),
+                !s.willItFly(new ArrayList<>(Arrays.asList(3, 2, 3)), 1)
         );
         if (correct.contains(false)) {
             throw new AssertionError();
