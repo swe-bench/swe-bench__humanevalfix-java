@@ -3,42 +3,24 @@ import java.lang.*;
 
 class Solution {
     /**
-    Input to this function is a string containing multiple groups of nested parentheses. Your goal is to
-    separate those group into separate strings and return the list of those.
-    Separate groups are balanced (each open brace is properly closed) and not nested within each other
-    Ignore any spaces in the input string.
-    >>> separateParenGroups("( ) (( )) (( )( ))")
-    ["()", "(())", "(()())"]
+    Given a positive floating point number, it can be decomposed into
+    and integer part (largest integer smaller than given number) and decimals
+    (leftover part always smaller than 1).
+
+    Return the decimal part of the number.
+    >>> truncateNumber(3.5)
+    0.5
      */
-    public List<String> separateParenGroups(String paren_string) {
+    public double truncateNumber(double number) {
 
-        List<String> result = new ArrayList<>();
-        StringBuilder current_string = new StringBuilder();
-        int current_depth = 0;
-
-        for (char c : paren_string.toCharArray()) {
-            if (c == '(') {
-                current_depth += 1;
-                current_string.append(c);
-            } else if (c == ')') {
-                current_depth -= 1;
-                current_string.append(c);
-
-                if (current_depth < 0) {
-                    result.add(current_string.toString());
-                    current_string.setLength(0);
-                }
-            }
-        }
-        return result;
-
+        return number % 1.0 + 1.0;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.separateParenGroups("( ) (( )) (( )( ))").equals(Arrays.asList("()", "(())", "(()())"))
+            s.truncateNumber(3.5) == 0.5
         );
         if (correct.contains(false)) {
             throw new AssertionError();
