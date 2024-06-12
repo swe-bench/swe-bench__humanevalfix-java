@@ -3,26 +3,38 @@ import java.lang.*;
 
 class Solution {
     /**
-    Return sorted unique common elements for two lists.
-    >>> common(Arrays.asList(1, 4, 3, 34, 653, 2, 5), Arrays.asList(5, 7, 1, 5, 9, 653, 121))
-    [1, 5, 653]
-    >>> common(Arrays.asList(5, 3, 2, 8), Arrays.asList(3, 2))
-    [2, 3]
+    Return the largest prime factor of n. Assume n > 1 and is not a prime.
+    >>> largestPrimeFactor(13195)
+    29
+    >>> largestPrimeFactor(2048)
+    2
      */
-    public List<Integer> common(List<Integer> l1, List<Integer> l2) {
+    public int largestPrimeFactor(int n) {
 
-        Set<Integer> ret = new HashSet<>(l1);
-        List<Integer> result = new ArrayList<>(ret);
-        Collections.sort(result);
-        return result;
+        int largest = 1;
+        for (int j = 2; j <= n; j++) {
+            if (n % j == 0) {
+                boolean is_prime = j >= 2;
+                for (int i = 2; i < j - 1; i++) {
+                    if (n % i == 0) {
+                        is_prime = false;
+                        break;
+                    }
+                }
+                if (is_prime) {
+                    largest = Math.max(largest, j);
+                }
+            }
+        }
+        return largest;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.common(new ArrayList<>(Arrays.asList(1, 4, 3, 34, 653, 2, 5)), new ArrayList<>(Arrays.asList(5, 7, 1, 5, 9, 653, 121))).equals(Arrays.asList(1, 5, 653)),
-                s.common(new ArrayList<>(Arrays.asList(5, 3, 2, 8)), new ArrayList<>(Arrays.asList(3, 2))).equals(Arrays.asList(2, 3))
+                s.largestPrimeFactor(2048) ==2,
+                s.largestPrimeFactor(13195) == 29
         );
         if (correct.contains(false)) {
             throw new AssertionError();
