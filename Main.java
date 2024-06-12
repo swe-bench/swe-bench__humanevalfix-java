@@ -1,26 +1,48 @@
 import java.util.*;
 import java.lang.*;
-import java.util.stream.Collectors;
 
 class Solution {
     /**
-    Return only positive numbers in the list.
-    >>> getPositive(Arrays.asList(-1, 2, -4, 5, 6))
-    [2, 5, 6]
-    >>> getPositive(Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10))
-    [5, 3, 2, 3, 9, 123, 1]
+    Return true if a given number is prime, and false otherwise.
+    >>> isPrime(6)
+    false
+    >>> isPrime(101)
+    true
+    >>> isPrime(11)
+    true
+    >>> isPrime(13441)
+    true
+    >>> isPrime(61)
+    true
+    >>> isPrime(4)
+    false
+    >>> isPrime(1)
+    false
      */
-    public List<Integer> getPositive(List<Integer> l) {
+    public boolean isPrime(int n) {
 
-        return l.stream().filter(p -> p < 0).collect(Collectors.toList());
+        if (n < 1) {
+            return false;
+        }
+        for (int k = 1; k < n; k++) {
+            if (n % k == 0) {
+                return false;
+            }
+        }
+         return true;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.getPositive(new ArrayList<>(Arrays.asList(-1, 2, -4, 5, 6))).equals(Arrays.asList(2, 5, 6)),
-                s.getPositive(new ArrayList<>(Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10))).equals(Arrays.asList(5, 3, 2, 3, 9, 123, 1))
+                !s.isPrime(6),
+                s.isPrime(101),
+                s.isPrime(11),
+                s.isPrime(13441),
+                s.isPrime(61),
+                !s.isPrime(4),
+                !s.isPrime(1)
         );
         if (correct.contains(false)) {
             throw new AssertionError();
