@@ -3,35 +3,54 @@ import java.lang.*;
 
 class Solution {
     /**
-    From a given list of integers, generate a list of rolling maximum element found until given moment
-    in the sequence.
-    >>> rollingMax(Arrays.asList(1, 2, 3, 2, 3, 4, 2))
-    [1, 2, 3, 3, 3, 4, 4]
+    Test if given string is a palindrome
      */
-    public List<Integer> rollingMax(List<Integer> numbers) {
-
-        List<Integer> result = new ArrayList<>();
-        if (numbers.size() == 0) {
-            return result;
-        }
-        int rollingMax = 1;
-        result.add(rollingMax);
-
-        for (int i = 1; i < numbers.size(); i++) {
-            if (numbers.get(i) > rollingMax) {
-                rollingMax = numbers.get(i);
+    public boolean isPalindrome(String string) {
+        int i = 0;
+        int j = string.length() - 1;
+        while (i < j) {
+            if (string.charAt(i)!= string.charAt(j)) {
+                return false;
             }
-            result.add(rollingMax);
+            i++;
+            j--;
+        }
+        return true;
+    }
+    /**
+    Find the shortest palindrome that begins with a supplied string.
+    Algorithm idea is simple:
+    - Find the longest postfix of supplied string that is a palindrome.
+    - Append to the end of the string reverse of a string prefix that comes before the palindromic suffix.
+    >>> makePalindrome("")
+    ""
+    >>> makePalindrome("cat")
+    "catac"
+    >>> makePalindrome("cata")
+    "catac"
+     */
+    public String makePalindrome(String string) {
+
+        if (string.length() == 0) {
+            return "";
         }
 
-        return result;
+        int beginning_of_suffix = 0;
+
+        while (!isPalindrome(string)) {
+            beginning_of_suffix++;
+        }
+
+        return string + new StringBuffer(string.substring(0, beginning_of_suffix)).reverse().toString();
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.rollingMax(new ArrayList<>(List.of(1, 2, 3, 2, 3, 4, 2))).equals(List.of(1, 2, 3, 3, 3, 4, 4))
+                Objects.equals(s.makePalindrome(""), ""),
+                Objects.equals(s.makePalindrome("cat"), "catac"),
+                Objects.equals(s.makePalindrome("cata"), "catac")
         );
         if (correct.contains(false)) {
             throw new AssertionError();
