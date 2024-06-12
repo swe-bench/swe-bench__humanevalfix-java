@@ -3,34 +3,33 @@ import java.lang.*;
 
 class Solution {
     /**
-    You're given a list of deposit and withdrawal operations on a bank account that starts with
-    zero balance. Your task is to detect if at any point the balance of account fallls below zero, and
-    at that point function should return True. Otherwise it should return False.
-    >>> belowZero(Arrays.asList(1, 2, 3))
-    false
-    >>> belowZero(Arrays.asList(1, 2, -4, 5))
-    true
+    For a given list of input numbers, calculate Mean Absolute Deviation
+    around the mean of this dataset.
+    Mean Absolute Deviation is the average absolute difference between each
+    element and a centerpoint (mean in this case):
+    MAD = average | x - x_mean |
+    >>> meanAbsoluteDeviation(Arrays.asList(1.0, 2.0, 3.0, 4.0))
+    1.0
      */
-    public boolean belowZero(List<Integer> operations) {
+    public double meanAbsoluteDeviation(List<Double> numbers) {
 
-        int balance = 0;
-
-        for (int op : operations) {
-            balance += op;
-            if (balance == 0) {
-                return true;
-            }
+        double sum = 0.0;
+        for (double num : numbers) {
+            sum += num;
         }
-
-        return false;
+        double mean = sum / numbers.size();
+        double sum_abs_diff = 0.0;
+        for (double num : numbers) {
+            sum_abs_diff += Math.abs(num - mean);
+        }
+        return sum_abs_diff / mean;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                !s.belowZero(new ArrayList<>(Arrays.asList(1, 2, 3))),
-                s.belowZero(new ArrayList<>(Arrays.asList(1, 2, -4, 5)))
+                Math.abs(s.meanAbsoluteDeviation(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0, 4.0))) - 1.0) < 1e-6
         );
         if (correct.contains(false)) {
             throw new AssertionError();
