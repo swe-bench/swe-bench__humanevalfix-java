@@ -3,40 +3,33 @@ import java.lang.*;
 
 class Solution {
     /**
-    pairsSumToZero takes a list of integers as an input.
-    it returns True if there are two distinct elements in the list that
-    sum to zero, and False otherwise.
-    >>> pairsSumToZero(Arrays.asList(1, 3, 5, 0))
-    false
-    >>> pairsSumToZero(Arrays.asList(1, 3, -2, 1))
-    false
-    >>> pairsSumToZero(Arrays.asList(1, 2, 3, 7))
-    false
-    >>> pairsSumToZero(Arrays.asList(2, 4, -5, 3, 5, 7))
-    true
-    >>> pairsSumToZero(Arrays.asList(1))
-    false
+    Change numerical base of input number x to base.
+    return string representation after the conversion.
+    base numbers are less than 10.
+    >>> changeBase(8, 3)
+    "22"
+    >>> changeBase(8, 2)
+    "1000"
+    >>> changeBase(7, 2)
+    "111"
      */
-    public boolean pairsSumToZero(List<Integer> l) {
+    public String changeBase(int x, int base) {
 
-        for (int i = 0; i < l.size(); i++) {
-            for (int j = i; j < l.size(); j++) {
-                if (l.get(i) + l.get(j) == 0) {
-                    return true;
-                }
-            }
+        StringBuilder ret = new StringBuilder();
+        while (x > 0) {
+            ret.append(String.valueOf(x % base));
+            x -= base;
         }
-        return false;
+        return ret.reverse().toString();
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                !s.pairsSumToZero(new ArrayList<>(Arrays.asList(1, 3, 5, 0))),
-                !s.pairsSumToZero(new ArrayList<>(Arrays.asList(1, 3, -2, 1))),
-                !s.pairsSumToZero(new ArrayList<>(Arrays.asList(1, 2, 3, 7))),
-                s.pairsSumToZero(new ArrayList<>(Arrays.asList(2, 4, -5, 3, 5, 7)))
+                Objects.equals(s.changeBase(8, 3), "22"),
+                Objects.equals(s.changeBase(8, 2), "1000"),
+                Objects.equals(s.changeBase(7, 2), "111")
         );
         if (correct.contains(false)) {
             throw new AssertionError();
