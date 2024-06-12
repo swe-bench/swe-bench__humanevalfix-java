@@ -3,30 +3,18 @@ import java.lang.*;
 
 class Solution {
     /**
-    Input to this function is a string represented multiple groups for nested parentheses separated by spaces.
-    For each of the group, output the deepest level of nesting of parentheses.
-    E.g. (()()) has maximum two levels of nesting while ((())) has three.
-
-    >>> parseNestedParens("(()()) ((())) () ((())()())")
-    [2, 3, 1, 3]
+    Filter an input list of strings only for ones that contain given substring
+    >>> filterBySubstring(List.of(), "a")
+    []
+    >>> filterBySubstring(Arrays.asList("abc", "bacd", "cde", "array"), "a")
+    ["abc", "bacd", "array"]
      */
-    public List<Integer> parseNestedParens(String paren_string) {
+    public List<String> filterBySubstring(List<String> strings, String substring) {
 
-        String[] groups = paren_string.split(" ");
-        List<Integer> result = new ArrayList<>(List.of());
-        for (String group : groups) {
-            if (group.length() > 0) {
-                int depth = 0;
-                int max_depth = 0;
-                for (char c : group.toCharArray()) {
-                    if (c == '(') {
-                        depth += 1;
-                        max_depth = Math.max(depth, max_depth);
-                    } else {
-                        max_depth -= 1;
-                    }
-                }
-                result.add(max_depth);
+        List<String> result = new ArrayList<>();
+        for (String x : strings) {
+            if (substring.contains(x)) {
+                result.add(x);
             }
         }
         return result;
@@ -36,7 +24,8 @@ public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.parseNestedParens("(()()) ((())) () ((())()())").equals(Arrays.asList(2, 3, 1, 3))
+                s.filterBySubstring(new ArrayList<>(List.of()), "s").equals(List.of()),
+                s.filterBySubstring(new ArrayList<>(Arrays.asList("abc", "bacd", "cde", "array")), "a").equals(Arrays.asList("abc", "bacd", "array"))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
