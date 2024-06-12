@@ -3,35 +3,30 @@ import java.lang.*;
 
 class Solution {
     /**
-    Write a function vowelsCount which takes a string representing
-    a word as input and returns the number of vowels in the string.
-    Vowels in this case are 'a', 'e', 'i', 'o', 'u'. Here, 'y' is also a
-    vowel, but only when it is at the end of the given word.
-
-    Example:
-    >>> vowelsCount("abcde")
-    2
-    >>> vowelsCount("ACEDY")
-    3
+    Circular shift the digits of the integer x, shift the digits right by shift
+    and return the result as a string.
+    If shift > number of digits, return digits reversed.
+    >>> circularShift(12, 1)
+    "21"
+    >>> circularShift(12, 2)
+    "12"
      */
-    public int vowelsCount(String s) {
+    public String circularShift(int x, int shift) {
 
-        String vowels = "aeiouyAEIOUY";
-        int n_vowels = 0;
-        for (char c : s.toCharArray()) {
-            if (vowels.indexOf(c) != -1) {
-                n_vowels += 1;
-            }
+        String s = String.valueOf(x);
+        if (shift > s.length()) {
+            return new StringBuilder(s).reverse().toString();
+        } else {
+            return s.substring(0, s.length() - shift) + s.substring(s.length() - shift);
         }
-        return n_vowels;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.vowelsCount("abcde") == 2,
-                s.vowelsCount("ACEDY") == 3
+                s.circularShift(12, 2).equals("12"),
+                s.circularShift(12, 1).equals("21")
         );
         if (correct.contains(false)) {
             throw new AssertionError();
