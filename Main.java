@@ -3,49 +3,32 @@ import java.lang.*;
 
 class Solution {
     /**
-    Create a function that takes a value (string) representing a number
-    and returns the closest integer to it. If the number is equidistant
-    from two integers, round it away from zero.
+    Given a positive integer n, you have to make a pile of n levels of stones.
+    The first level has n stones.
+    The number of stones in the next level is:
+        - the next odd number if n is odd.
+        - the next even number if n is even.
+    Return the number of stones in each level in a list, where element at index
+    i represents the number of stones in the level (i+1).
 
-    Examples
-    >>> closest_integer("10")
-    10
-    >>> closest_integer("15.3")
-    15
-
-    Note:
-    Rounding away from zero means that if the given number is equidistant
-    from two integers, the one you should return is the one that is the
-    farthest from zero. For example closest_integer("14.5") should
-    return 15 and closest_integer("-14.5") should return -15.
+    Examples:
+    >>> makeAPile(3)
+    [3, 5, 7]
      */
-    public int countUpper(String value) {
+    public List<Integer> makeAPile(int n) {
 
-        if (value.contains(".")) {
-            while (value.charAt(value.length() - 1) == '0') {
-                value = value.substring(0, value.length() - 1);
-            }
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            result.add(n + 2 * i + i);
         }
-        double num = Double.parseDouble(value);
-        int res = 0;
-        if (value.substring(Math.max(value.length() - 2, 0)).equals(".5")) {
-            if (num > 0) {
-                res = (int) Math.floor(num);
-            } else {
-                res = (int) Math.ceil(num);
-            }
-        } else if(value.length() > 0) {
-            res = (int) Math.round(num);
-        }
-        return res;
+        return result;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.countUpper("10") == 10,
-                s.countUpper("15.3") == 15
+                s.makeAPile(3).equals(Arrays.asList(3, 5, 7))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
