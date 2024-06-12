@@ -3,53 +3,65 @@ import java.lang.*;
 
 class Solution {
     /**
-    You're a hungry rabbit, and you already have eaten a certain number of carrots,
-    but now you need to eat more carrots to complete the day's meals.
-    you should return an array of [ total number of eaten carrots after your meals,
-                                    the number of carrots left after your meals ]
-    if there are not enough remaining carrots, you will eat all remaining carrots, but will still be hungry.
+    Given two lists operator, and operand. The first list has basic algebra operations, and
+    the second list is a list of integers. Use the two given lists to build the algebric
+    expression and return the evaluation of this expression.
+
+    The basic algebra operations:
+    Addition ( + )
+    Subtraction ( - )
+    Multiplication ( * )
+    Floor division ( / )
+    Exponentiation ( ** )
 
     Example:
-    * eat(5, 6, 10) -> [11, 4]
-    * eat(4, 8, 9) -> [12, 1]
-    * eat(1, 10, 10) -> [11, 0]
-    * eat(2, 11, 5) -> [7, 0]
+    operator["+", "*", "-"]
+    array = [2, 3, 4, 5]
+    result = 2 + 3 * 4 - 5
+    => result = 9
 
-    Variables:
-    @number : integer
-        the number of carrots that you have eaten.
-    @need : integer
-        the number of carrots that you need to eat.
-    @remaining : integer
-        the number of remaining carrots thet exist in stock
-
-    Constrain:
-    * 0 <= number <= 1000
-    * 0 <= need <= 1000
-    * 0 <= remaining <= 1000
-
-    Have fun :)
+    Note:
+        The length of operator list is equal to the length of operand list minus one.
+        Operand is a list of of non-negative integers.
+        Operator list has at least one operator, and operand list has at least two operands.
      */
-    public List<Integer> eat(int number, int need, int remaining) {
+    public int doAlgebra(List<String> operator, List<Integer> operand) {
 
-        if (need <= remaining) {
-            return Arrays.asList(number + need, number + remaining - need);
-        } else {
-            return Arrays.asList(number + need + remaining, 0);
+        List<String> ops = new ArrayList<>(operator);
+        List<Integer> nums = new ArrayList<>(operand);
+        for (int i = ops.size() - 1; i >= 0; i--) {
+            if (ops.get(i).equals("**")) {
+                nums.set(i, (int) Math.round(Math.pow(nums.get(i + 1), nums.get(i + 1))));
+                nums.remove(i + 1);
+                ops.remove(i);
+            }
         }
-    }
-}
-public class Main {
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        List<Boolean> correct = Arrays.asList(
-                s.eat(5, 6, 10).equals(Arrays.asList(11, 4)),
-                s.eat(4, 8, 9).equals(Arrays.asList(12, 1)),
-                s.eat(1, 10, 10).equals(Arrays.asList(11, 0)),
-                s.eat(2, 11, 5).equals(Arrays.asList(7, 0))
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
+        for (int i = 0; i < ops.size(); i++) {
+            if (ops.get(i).equals("*")) {
+                nums.set(i, nums.get(i) * nums.get(i + 1));
+                nums.remove(i + 1);
+                ops.remove(i);
+                i--;
+            } else if (ops.get(i).equals("/")) {
+                nums.set(i, nums.get(i) / nums.get(i + 1));
+                nums.remove(i + 1);
+                ops.remove(i);
+                i--;
+            }
         }
+        for (int i = 0; i < ops.size(); i++) {
+            if (ops.get(i).equals("+")) {
+                nums.set(i, nums.get(i) + nums.get(i + 1));
+                nums.remove(i + 1);
+                ops.remove(i);
+                i--;
+            } else if (ops.get(i).equals("-")) {
+                nums.set(i, nums.get(i) - nums.get(i + 1));
+                nums.remove(i + 1);
+                ops.remove(i);
+                i--;
+            }
+        }
+        return nums.get(0);
     }
 }
