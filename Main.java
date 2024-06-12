@@ -3,27 +3,36 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given a non-empty list of integers lst. add the even elements that are at odd indices..
+    Write a function that takes a string and returns an ordered version of it.
+    Ordered version of string, is a string where all words (separated by space)
+    are replaced by a new word where all the characters arranged in
+    ascending order based on ascii value.
+    Note: You should keep the order of words and blank spaces in the sentence.
 
-    Examples:
-        add(Arrays.asList(4, 2, 6, 7)) ==> 2
+    For example:
+    antiShuffle("Hi") returns "Hi"
+    antiShuffle("hello") returns "ehllo"
+    antiShuffle("Hello World!!!") returns "Hello !!!Wdlor"
      */
-    public int add(List<Integer> lst) {
+    public String antiShuffle(String s) {
 
-        int sum = 0;
-        for (int i = 1; i < lst.size(); i += 1) {
-            if (lst.get(i) % 2 == 0) {
-                sum += lst.get(i);
-            }
+        String[] strings = s.split(" ");
+        List<String> result = new ArrayList<>();
+        for (String string : strings) {
+            char[] chars = string.toCharArray();
+            Arrays.sort(chars);
+            result.add(String.copyValueOf(chars));
         }
-        return sum;
+        return String.join("", result);
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.add(new ArrayList<>(Arrays.asList(4, 2, 6, 7))) == 2
+                Objects.equals(s.antiShuffle("Hi"), "Hi"),
+                Objects.equals(s.antiShuffle("hello"), "ehllo"),
+                Objects.equals(s.antiShuffle("Hello World!!!"), "Hello !!!Wdlor")
         );
         if (correct.contains(false)) {
             throw new AssertionError();
