@@ -3,42 +3,45 @@ import java.lang.*;
 
 class Solution {
     /**
-    In this Kata, you have to sort an array of non-negative integers according to
-    number of ones in their binary representation in ascending order.
-    For similar number of ones, sort based on decimal value.
-    <p>
-    It must be implemented like this:
-    >>> sortArray(Arrays.asList(1, 5, 2, 3, 4)).equals(Arrays.asList(1, 2, 3, 4, 5))
-    >>> sortArray(Arrays.asList(-2, -3, -4, -5, -6)).equals(Arrays.asList(-6, -5, -4, -3, -2))
-    >>> sortArray(Arrays.asList(1, 0, 2, 3, 4)).equals(Arrays.asList(0, 1, 2, 3, 4))
+    Given a string s and a natural number n, you have been tasked to implement
+    a function that returns a list of all words from string s that contain exactly
+    n consonants, in order these words appear in the string s.
+    If the string s is empty then the function should return an empty list.
+    Note: you may assume the input string contains only letters and spaces.
+    Examples:
+    selectWords("Mary had a little lamb", 4) ==> ["little"]
+    selectWords("Mary had a little lamb", 3) ==> ["Mary", "lamb"]
+    selectWords("simple white space", 2) ==> []
+    selectWords("Hello world", 4) ==> ["world"]
+    selectWords("Uncle sam", 3) ==> ["Uncle"]
      */
-    public List<Integer> sortArray(List<Integer> arr) {
+    public List<String> selectWords(String s, int n) {
 
-                List < Integer > sorted_arr = new ArrayList<>(arr);
-        sorted_arr.sort(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                int cnt1 = (int) Integer.toBinaryString(Math.abs(o1)).chars().filter(ch -> ch == '1').count();
-                int cnt2 = (int) Integer.toBinaryString(Math.abs(o2)).chars().filter(ch -> ch == '1').count();
-                if (cnt1 > cnt2) {
-                    return 1;
-                } else if (cnt1 < cnt2) {
-                    return -1;
-                } else {
-                    return o1.compareTo(o2);
+        List<String> result = new ArrayList<>();
+        for (String word : s.split(" ")) {
+            int n_consonants = 0;
+            for (char c : word.toCharArray()) {
+                c = Character.toLowerCase(c);
+                if ("aeiou".indexOf(c) != -1) {
+                    n_consonants += 1;
                 }
             }
-        });
-        return arr;
+            if (n_consonants == n) {
+                result.add(word);
+            }
+        }
+        return result;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.sortArray(new ArrayList<>(Arrays.asList(1, 5, 2, 3, 4))).equals(Arrays.asList(1, 2, 4, 3, 5)),
-                s.sortArray(new ArrayList<>(Arrays.asList(-2, -3, -4, -5, -6))).equals(Arrays.asList(-4, -2, -6, -5, -3)),
-                s.sortArray(new ArrayList<>(Arrays.asList(1, 0, 2, 3, 4))).equals(Arrays.asList(0, 1, 2, 4, 3))
+                s.selectWords("Mary had a little lamb", 4).equals(List.of("little" )),
+                s.selectWords("Mary had a little lamb", 3).equals(Arrays.asList("Mary", "lamb")),
+                s.selectWords("simple white space", 2).equals(List.of()),
+                s.selectWords("Hello world", 4).equals(List.of("world" )),
+                s.selectWords("Uncle sam", 3).equals(List.of("Uncle" ))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
