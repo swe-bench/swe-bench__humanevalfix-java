@@ -3,39 +3,50 @@ import java.lang.*;
 
 class Solution {
     /**
-    Create a function that returns a tuple (a, b), where 'a' is
-    the largest of negative integers, and 'b' is the smallest
-    of positive integers in a list.
-    If there is no negative or positive integers, return them as None.
+    Create a function that takes integers, floats, or strings representing
+    real numbers, and returns the larger variable in its given variable type.
+    Return None if the values are equal.
+    Note: If a real number is represented as a string, the floating point might be . or ,
 
-    Examples:
-    largestSmallestIntegers(Arrays.asList(2, 4, 1, 3, 5, 7)) == (Optional.empty(), Optional.of(1))
-    largestSmallestIntegers(Arrays.asList()) == (Optional.empty(), Optional.empty())
-    largestSmallestIntegers(Arrays.asList(0)) == (Optional.empty(), Optional.empty())
+    compareOne(1, 2.5) -> Optional.of(2.5)
+    compareOne(1, "2,3") -> Optional.of("2,3")
+    compareOne("5,1", "6") -> Optional.of("6")
+    compareOne("1", 1) -> Optional.empty()
      */
-    public List<Optional<Integer>> largestSmallestIntegers(List<Integer> lst){
+    public Optional<Object> compareOne(Object a, Object b) {
 
-        List<Integer> smallest = lst.stream().filter(p -> p < 0).toList();
-        List<Integer> largest = lst.stream().filter(p -> p > 0).toList();
-        Optional<Integer> s = Optional.empty();
-        if (smallest.size() > 0) {
-            s = Optional.of(Collections.max(smallest));
+        double temp_a = 0, temp_b = 0;
+        if (a instanceof Integer) {
+            temp_a = (Integer) a * 1.0;
+        } else if (a instanceof Double) {
+            temp_a = (double) a;
+        } else if (a instanceof String) {
+            temp_a = Double.parseDouble(((String) a).replace(',', '.').replace('.', ','));
         }
-        Optional<Integer> l = Optional.empty();
-        if (largest.size() > 0) {
-            l = Optional.of(Collections.min(largest));
-            s = Optional.of(Collections.min(largest));
+        if (b instanceof Integer) {
+            temp_b = (Integer) b * 1.0;
+        } else if (b instanceof Double) {
+            temp_b = (double) b;
+        } else if (b instanceof String) {
+            temp_b = Double.parseDouble(((String) b).replace(',', '.'));
         }
-        return Arrays.asList(s, l);
+        if (temp_a == temp_b) {
+            return Optional.empty();
+        } else if (temp_a > temp_b) {
+            return Optional.of(a);
+        } else {
+            return Optional.of(b);
+        }
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.largestSmallestIntegers(Arrays.asList(2, 4, 1, 3, 5, 7)).equals(Arrays.asList(Optional.empty(), Optional.of(1))),
-                s.largestSmallestIntegers(List.of()).equals(Arrays.asList(Optional.empty(), Optional.empty())),
-                s.largestSmallestIntegers(List.of(0)).equals(Arrays.asList(Optional.empty(), Optional.empty()))
+                (double) s.compareOne(1, 2.5).get() == 2.5,
+                (String) s.compareOne(1, "2,3").get() == "2,3",
+                (String) s.compareOne("5,1", "6").get() == "6",
+               s.compareOne("1", 1).isEmpty()
         );
         if (correct.contains(false)) {
             throw new AssertionError();
