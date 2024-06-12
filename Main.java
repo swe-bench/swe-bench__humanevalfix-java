@@ -3,35 +3,48 @@ import java.lang.*;
 
 class Solution {
     /**
-    This function will take a list of integers. For all entries in the list, the function shall square the integer entry if its index is a
-    multiple of 3 and will cube the integer entry if its index is a multiple of 4 and not a multiple of 3. The function will not
-    change the entries in the list whose indexes are not a multiple of 3 or 4. The function shall then return the sum of all entries.
+    You are given a string representing a sentence,
+    the sentence contains some words separated by a space,
+    and you have to return a string that contains the words from the original sentence,
+    whose lengths are prime numbers,
+    the order of the words in the new string should be the same as the original one.
 
-    Examples:
-    For lst = [1,2,3] the output should be 6
-    For lst = []  the output should be 0
-    For lst = [-1,-5,2,-1,-5]  the output should be -126
+    Example 1:
+        Input: sentence = "This is a test"
+        Output: "is"
+
+    Example 2:
+        Input: sentence = "lets go for swimming"
+        Output: "go for"
+
+    Constraints:
+        * 1 <= len(sentence) <= 100
+        * sentence contains only letters
      */
-    public int sumSquares(List<Integer> lst) {
+    public String wordsInSentence(String sentence) {
 
-        List<Integer> result = new ArrayList<>();
-        for (int i = 0; i < lst.size(); i++) {
-            if (i % 3 == 0) {
-                result.add(lst.get(i) * lst.get(i));
-            } else {
-                result.add(lst.get(i));
+        List<String> new_lst = new ArrayList<>();
+        for (String word : sentence.split(" " )) {
+            boolean flg = true;
+            for (int i = 2; i < word.length(); i++) {
+                if (word.length() % i == 0) {
+                    flg = false;
+                    break;
+                }
+            }
+            if (flg) {
+                new_lst.add(word);
             }
         }
-        return result.stream().reduce(Integer::sum).orElse(0);
+        return String.join(" ", new_lst);
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.sumSquares(Arrays.asList(1,2,3)) == 6,
-                s.sumSquares(List.of()) == 0,
-                s.sumSquares(Arrays.asList(-1,-5,2,-1,-5)) == -126
+                Objects.equals(s.wordsInSentence("This is a test" ), "is" ),
+                Objects.equals(s.wordsInSentence("lets go for swimming" ), "go for" )
         );
         if (correct.contains(false)) {
             throw new AssertionError();
