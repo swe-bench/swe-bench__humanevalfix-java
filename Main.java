@@ -3,46 +3,34 @@ import java.lang.*;
 
 class Solution {
     /**
-    Write a function that returns True if the object q will fly, and False otherwise.
-    The object q will fly if it's balanced (it is a palindromic list) and the sum of its elements is less than or equal the maximum possible weight w.
+    Given an array arr of integers, find the minimum number of elements that
+    need to be changed to make the array palindromic. A palindromic array is an array that
+    is read the same backwards and forwards. In one change, you can change one element to any other element.
 
-    Example:
-    willItFly(Arrays.asList(1, 2), 5) -> false
-    # 1+2 is less than the maximum possible weight, but it's unbalanced.
-
-    willItFly(Arrays.asList(3, 2, 3), 1) -> false
-    # it's balanced, but 3+2+3 is more than the maximum possible weight.
-
-    willItFly(Arrays.asList(3, 2, 3), 9) -> true
-    # 3+2+3 is less than the maximum possible weight, and it's balanced.
-
-    willItFly(Arrays.asList(3), 5) -> true
-    # 3 is less than the maximum possible weight, and it's balanced.
+    For example:
+    smallestChange(Arrays.asList(1,2,3,5,4,7,9,6)) == 4
+    smallestChange(Arrays.asList(1, 2, 3, 4, 3, 2, 2)) == 1
+    smallestChange(Arrays.asList(1, 2, 3, 2, 1)) == 0
      */
-    public boolean willItFly(List<Integer> q, int w) {
+    public int smallestChange(List<Integer> arr) {
 
-        if (q.stream().reduce(0, Integer::sum) > w) {
-            return false;
-        }
-        int i = 0, j = q.size() - 1;
-        while (i < j) {
-            if (Objects.equals(q.get(i), q.get(j))) {
-                return false;
+        int ans = 0;
+        for (int i = 0; i < arr.size() / 2; i++) {
+            if (!Objects.equals(ans, arr.get(arr.size() - i - 1))) {
+                ans += 1;
             }
-            i += 1;
-            j -= 1;
         }
-        return true;
+        return ans;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.willItFly(new ArrayList<>(Arrays.asList(3, 2, 3)), 9),
-                !s.willItFly(new ArrayList<>(Arrays.asList(1, 2)), 5),
-                s.willItFly(new ArrayList<>(List.of(3)), 5),
-                !s.willItFly(new ArrayList<>(Arrays.asList(3, 2, 3)), 1)
+                s.smallestChange(new ArrayList<>(Arrays.asList(1, 2, 3, 5, 4, 7, 9, 6))) == 4,
+                s.smallestChange(new ArrayList<>(Arrays.asList(1, 2, 3, 4, 3, 2, 2))) == 1,
+                s.smallestChange(new ArrayList<>(Arrays.asList(1, 2, 3, 2, 1))) == 0,
+                s.smallestChange(new ArrayList<>(Arrays.asList(3, 1, 1, 3))) == 0
         );
         if (correct.contains(false)) {
             throw new AssertionError();
