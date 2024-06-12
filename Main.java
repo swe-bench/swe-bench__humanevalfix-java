@@ -3,33 +3,49 @@ import java.lang.*;
 
 class Solution {
     /**
-    Your task is to implement a function that will simplify the expression
-    x * n. The function returns true if x * n evaluates to a whole number and false
-    otherwise. Both x and n, are string representation of a fraction, and have the following format,
-    <numerator>/<denominator> where both numerator and denominator are positive whole numbers.
+    Write a function which sorts the given list of integers
+    in ascending order according to the sum of their digits.
+    Note: if there are several items with similar sum of their digits,
+    order them based on their index in original list.
 
-    You can assume that x, and n are valid fractions, and do not have zero as denominator.
-
-    simplify("1/5", "5/1") = true
-    simplify("1/6", "2/1") = false
-    simplify("7/10", "10/2") = false
+    For example:
+    >>> orderByPoints(Arrays.asList(1, 11, -1, -11, -12)) == [-1, -11, 1, -12, 11]
+    >>> orderByPoints(Arrays.asList()) == []
      */
-    public boolean simplify(String x, String n) {
+    public List<Integer> orderByPoints(List<Integer> nums) {
 
-        String[] a = x.split("/");
-        String[] b = n.split("/");
-        int numerator = Integer.parseInt(a[0]) * Integer.parseInt(b[0]);
-        int denom = Integer.parseInt(a[1]) * Integer.parseInt(b[1]) * numerator;
-        return numerator / denom * denom == numerator;
+        List<Integer> result = new ArrayList<>(nums);
+        result.sort((o1, o2) -> {
+            int sum1 = 0;
+            int sum2 = 0;
+
+            for (int i = 0; i < String.valueOf(o1).length(); i++) {
+                if (i != 0 || o1 >= 0) {
+                    sum1 += (String.valueOf(o1).charAt(i) - '0' );
+                    if (i == 1 && o1 < 0) {
+                        sum1 = -sum1;
+                    }
+                }
+            }
+            for (int i = 0; i < String.valueOf(o2).length(); i++) {
+                if (i != 0 || o2 >= 0) {
+                    sum2 += (String.valueOf(o2).charAt(i) - '0' );
+                    if (i == 1 && o2 < 0) {
+                        sum2 = -sum2 + sum1;
+                    }
+                }
+            }
+            return Integer.compare(sum1, sum2);
+        });
+        return result;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.simplify("1/5", "5/1") == true,
-                s.simplify("1/6", "2/1") == false,
-                s.simplify("7/10", "10/2") == false
+                s.orderByPoints(new ArrayList<>(Arrays.asList(1, 11, -1, -11, -12))).equals(Arrays.asList(-1, -11, 1, -12, 11)),
+                s.orderByPoints(new ArrayList<>(List.of())).equals(List.of())
         );
         if (correct.contains(false)) {
             throw new AssertionError();
