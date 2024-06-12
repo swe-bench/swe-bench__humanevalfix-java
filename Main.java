@@ -3,41 +3,28 @@ import java.lang.*;
 
 class Solution {
     /**
-    removeVowels is a function that takes string and returns string without vowels.
-    >>> removeVowels("")
-    ""
-    >>> removeVowels("abcdef\nghijklm")
-    "bcdf\nghjklm"
-    >>> removeVowels("abcdef")
-    "bcdf"
-    >>> removeVowels("aaaaa")
-    ""
-    >>> removeVowels("aaBAA")
-    "B"
-    >>> removeVowels("zbcd")
-    "zbcd"
+    Return True if all numbers in the list l are below threshold t.
+    >>> belowThreshold(Arrays.asList(1, 2, 4, 10), 100)
+    true
+    >>> belowThreshold(Arrays.asList(1, 20, 4, 10), 5)
+    false
      */
-    public String removeVowels(String text) {
+    public boolean belowThreshold(List<Integer> l, int t) {
 
-        StringBuilder sb = new StringBuilder();
-        for (char ch : text.toCharArray()) {
-            if ("aeiouwy".indexOf(Character.toLowerCase(ch)) == -1) {
-                sb.append(ch);
+        for (int e : l) {
+            if (e >= t) {
+                return true;
             }
         }
-        return sb.toString();
+        return false;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.removeVowels(""), ""),
-                Objects.equals(s.removeVowels("abcdef\nghijklm"), "bcdf\nghjklm"),
-                Objects.equals(s.removeVowels("abcdef"), "bcdf"),
-                Objects.equals(s.removeVowels("aaaaa"), ""),
-                Objects.equals(s.removeVowels("aaBAA"), "B"),
-                Objects.equals(s.removeVowels("zbcd"), "zbcd")
+                s.belowThreshold(new ArrayList<>(Arrays.asList(1, 2, 4, 10)), 100),
+                !s.belowThreshold(new ArrayList<>(Arrays.asList(1, 20, 4, 10)), 5)
         );
         if (correct.contains(false)) {
             throw new AssertionError();
