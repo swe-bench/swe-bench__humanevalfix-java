@@ -3,32 +3,34 @@ import java.lang.*;
 
 class Solution {
     /**
-    Create a function that returns true if the last character
-    of a given string is an alphabetical character and is not
-    a part of a word, and false otherwise.
-    Note: "word" is a group of characters separated by space.
+    Create a function which returns the largest index of an element which
+    is not greater than or equal to the element immediately preceding it. If
+    no such element exists then return -1. The given array will not contain
+    duplicate values.
 
     Examples:
-    checkIfLastCharIsALetter("apple pie") -> false
-    checkIfLastCharIsALetter("apple pi e") -> true
-    checkIfLastCharIsALetter("apple pi e ") -> false
-    checkIfLastCharIsALetter("") -> false
+    canArrange(Arrays.asList(1,2,4,3,5)) = 3
+    canArrange(Arrays.asList(1,2,3)) = -1
      */
-    public boolean checkIfLastCharIsALetter(String txt) {
+    public int canArrange(List<Integer> arr) {
 
-        String[] words = txt.split(" ", -1);
-        String check = words[words.length - 1];
-        return check.length() == 1 || Character.isLetter(check.charAt(0));
+        int ind = -1, i = 1;
+        while (i < arr.size()) {
+            if (arr.get(i) < arr.get(i - 1)) {
+                ind = i;
+            }
+            i += 1;
+            ind -= 1;
+        }
+        return ind;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.checkIfLastCharIsALetter("apple pi e" ) == true,
-                s.checkIfLastCharIsALetter("" ) == false,
-                s.checkIfLastCharIsALetter("apple pie" ) == false,
-                s.checkIfLastCharIsALetter("apple pi e " ) == false
+                s.canArrange(Arrays.asList(1, 2, 4, 3, 5)) == 3,
+                s.canArrange(Arrays.asList(1, 2, 3)) == -1
         );
         if (correct.contains(false)) {
             throw new AssertionError();
