@@ -3,54 +3,29 @@ import java.lang.*;
 
 class Solution {
     /**
-    Test if given string is a palindrome
+    Input are two strings a and b consisting only of 1s and 0s.
+    Perform binary XOR on these inputs and return result also as a string.
+    >>> stringXor("010", "110")
+    "100"
      */
-    public boolean isPalindrome(String string) {
-        int i = 0;
-        int j = string.length() - 1;
-        while (i < j) {
-            if (string.charAt(i)!= string.charAt(j)) {
-                return false;
+    public String stringXor(String a, String b) {
+
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < a.length(); i++) {
+            if (a.charAt(i) == b.charAt(i)) {
+                result.append("1");
+            } else {
+                result.append("0");
             }
-            i++;
-            j--;
         }
-        return true;
-    }
-    /**
-    Find the shortest palindrome that begins with a supplied string.
-    Algorithm idea is simple:
-    - Find the longest postfix of supplied string that is a palindrome.
-    - Append to the end of the string reverse of a string prefix that comes before the palindromic suffix.
-    >>> makePalindrome("")
-    ""
-    >>> makePalindrome("cat")
-    "catac"
-    >>> makePalindrome("cata")
-    "catac"
-     */
-    public String makePalindrome(String string) {
-
-        if (string.length() == 0) {
-            return "";
-        }
-
-        int beginning_of_suffix = 0;
-
-        while (!isPalindrome(string)) {
-            beginning_of_suffix++;
-        }
-
-        return string + new StringBuffer(string.substring(0, beginning_of_suffix)).reverse().toString();
+        return result.toString();
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.makePalindrome(""), ""),
-                Objects.equals(s.makePalindrome("cat"), "catac"),
-                Objects.equals(s.makePalindrome("cata"), "catac")
+                Objects.equals(s.stringXor("010", "110"), "100")
         );
         if (correct.contains(false)) {
             throw new AssertionError();
