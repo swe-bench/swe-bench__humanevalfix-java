@@ -3,29 +3,27 @@ import java.lang.*;
 
 class Solution {
     /**
-    Return a string containing space-delimited numbers starting from 0 upto n inclusive.
-    >>> stringSequence(0)
-    "0"
-    >>> stringSequence(5)
-    "0 1 2 3 4 5"
+    Given a string, find out how many distinct characters (regardless of case) does it consist of
+    >>> countDistinctCharacters("xyzXYZ")
+    3
+    >>> countDistinctCharacters("Jerry")
+    4
      */
-    public String stringSequence(int n) {
+    public int countDistinctCharacters(String string) {
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n-1; i++) {
-            sb.append(i);
-            sb.append(" ");
+        Set<Character> set = new HashSet<>();
+        for (char c : string.toCharArray()) {
+            set.add(c);
         }
-        sb.append(n);
-        return sb.toString();
+        return set.size();
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.stringSequence(0).equals("0"),
-                s.stringSequence(5).equals("0 1 2 3 4 5")
+                s.countDistinctCharacters("xyzXYZ") == 3,
+                s.countDistinctCharacters("Jerry") == 4
         );
         if (correct.contains(false)) {
             throw new AssertionError();
