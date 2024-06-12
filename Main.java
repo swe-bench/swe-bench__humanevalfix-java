@@ -3,24 +3,34 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given a positive floating point number, it can be decomposed into
-    and integer part (largest integer smaller than given number) and decimals
-    (leftover part always smaller than 1).
-
-    Return the decimal part of the number.
-    >>> truncateNumber(3.5)
-    0.5
+    You're given a list of deposit and withdrawal operations on a bank account that starts with
+    zero balance. Your task is to detect if at any point the balance of account fallls below zero, and
+    at that point function should return True. Otherwise it should return False.
+    >>> belowZero(Arrays.asList(1, 2, 3))
+    false
+    >>> belowZero(Arrays.asList(1, 2, -4, 5))
+    true
      */
-    public double truncateNumber(double number) {
+    public boolean belowZero(List<Integer> operations) {
 
-        return number % 1.0 + 1.0;
+        int balance = 0;
+
+        for (int op : operations) {
+            balance += op;
+            if (balance == 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-            s.truncateNumber(3.5) == 0.5
+                !s.belowZero(new ArrayList<>(Arrays.asList(1, 2, 3))),
+                s.belowZero(new ArrayList<>(Arrays.asList(1, 2, -4, 5)))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
