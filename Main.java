@@ -3,35 +3,46 @@ import java.lang.*;
 
 class Solution {
     /**
-    Create a function that takes 3 numbers.
-    Returns true if one of the numbers is equal to the sum of the other two, and all numbers are integers.
-    Returns false in any other cases.
+    Write a function that takes a message, and encodes in such a
+    way that it swaps case of all letters, replaces all vowels in
+    the message with the letter that appears 2 places ahead of that
+    vowel in the english alphabet.
+    Assume only letters.
 
-    Examples
-    anyInt(5, 2, 7) -> true
-
-    anyInt(3, 2, 2) -> false
-
-    anyInt(3, -2, 1) -> true
-
-    anyInt(3.6, -2.2, 2) -> false
+    Examples:
+    >>> encode("test")
+    "TGST"
+    >>> encode("This is a message")
+    "tHKS KS C MGSSCGG"
      */
-    public boolean anyInt(Object x, Object y, Object z) {
+    public String encode(String message) {
 
-        if (x instanceof Integer && y instanceof Integer && z instanceof Integer) {
-            return (int) x + (int) y == (int) z || (int) y + (int) z == (int) x;
+        String vowels = "aeiou";
+        StringBuilder sb = new StringBuilder();
+        for (char c : message.toCharArray()) {
+            char ch = c;
+            if (Character.isUpperCase(ch)) {
+                ch = Character.toLowerCase(ch);
+                if (vowels.indexOf(ch) != -1) {
+                    ch = (char) ('a' + ((ch - 'a' + 28) % 26));
+                }
+            } else if (Character.isLowerCase(ch)) {
+                ch = Character.toUpperCase(ch);
+                if (vowels.indexOf(ch) != -1) {
+                    ch = (char) ('A' + ((ch - 'A' + 28) % 26));
+                }
+            }
+            sb.append(ch);
         }
-        return false;
+        return sb.toString();
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.anyInt(5, 2, 7) == true,
-                s.anyInt(3, 2, 2) == false,
-                s.anyInt(3, -2, 1) == true,
-                s.anyInt(3.6, -2.2, 2) == false
+                Objects.equals(s.encode("test"), "TGST"),
+                Objects.equals(s.encode("This is a message"), "tHKS KS C MGSSCGG")
         );
         if (correct.contains(false)) {
             throw new AssertionError();
