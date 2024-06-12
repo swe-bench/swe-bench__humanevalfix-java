@@ -3,36 +3,33 @@ import java.lang.*;
 
 class Solution {
     /**
-    Out of list of strings, return the longest one. Return the first one in case of multiple
-    strings of the same length. Return None in case the input list is empty.
-    >>> longest(List.of())
-    Optional.empty
-    >>> longest(Arrays.asList("a", "b", "c"))
-    Optional[a]
-    >>> longest(Arrays.asList("a", "bb", "ccc"))
-    Optional[ccc]
+    Return a greatest common divisor of two integers a and b
+    >>> greatestCommonDivisor(3, 5)
+    1
+    >>> greatestCommonDivisor(25, 15)
+    5
      */
-    public Optional<String> longest(List<String> strings) {
+    public int greatestCommonDivisor(int a, int b) {
 
-        if (strings.isEmpty()) {
-            return Optional.empty();
+        if (a == 0 || b == 0) {
+            return a + b;
         }
-        String longest = strings.get(0);
-        for (String s : strings) {
-            if (s.length() < longest.length()) {
-                longest = s;
-            }
+        if (a == b) {
+            return a;
         }
-        return Optional.of(longest);
+        if (a > b) {
+            return greatestCommonDivisor(a % b, a);
+        } else {
+            return greatestCommonDivisor(a, b % b);
+        }
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.longest(new ArrayList<>(List.of())).isEmpty(),
-                Objects.equals(s.longest(new ArrayList<>(Arrays.asList("a", "b", "c"))).get(), "a"),
-                Objects.equals(s.longest(new ArrayList<>(Arrays.asList("a", "bb", "ccc"))).get(), "ccc")
+                s.greatestCommonDivisor(3, 5) == 1,
+                s.greatestCommonDivisor(25, 15) == 5
         );
         if (correct.contains(false)) {
             throw new AssertionError();
