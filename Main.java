@@ -3,23 +3,32 @@ import java.lang.*;
 
 class Solution {
     /**
-    Insert a number 'delimeter' between every two consecutive elements of input list `numbers'
-    >>> intersperse(List.of(), 4)
-    []
-    >>> intersperse(Arrays.asList(1, 2, 3), 4)
-    [1, 4, 2, 4, 3]
+    Input to this function is a string represented multiple groups for nested parentheses separated by spaces.
+    For each of the group, output the deepest level of nesting of parentheses.
+    E.g. (()()) has maximum two levels of nesting while ((())) has three.
+
+    >>> parseNestedParens("(()()) ((())) () ((())()())")
+    [2, 3, 1, 3]
      */
-    public List<Integer> intersperse(List<Integer> numbers, int delimiter) {
+    public List<Integer> parseNestedParens(String paren_string) {
 
-        if (numbers.size() == 0) {
-            return List.of();
-        }
+        String[] groups = paren_string.split(" ");
         List<Integer> result = new ArrayList<>(List.of());
-        for (int i = 0; i < numbers.size() - 1; i++) {
-            result.add(numbers.get(i));
-            result.add(delimiter);
+        for (String group : groups) {
+            if (group.length() > 0) {
+                int depth = 0;
+                int max_depth = 0;
+                for (char c : group.toCharArray()) {
+                    if (c == '(') {
+                        depth += 1;
+                        max_depth = Math.max(depth, max_depth);
+                    } else {
+                        max_depth -= 1;
+                    }
+                }
+                result.add(max_depth);
+            }
         }
-
         return result;
     }
 }
@@ -27,8 +36,7 @@ public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.intersperse(new ArrayList<>(List.of()), 4).equals(List.of()),
-                s.intersperse(new ArrayList<>(Arrays.asList(1,2,3)), 4).equals(Arrays.asList(1,4,2,4,3))
+                s.parseNestedParens("(()()) ((())) () ((())()())").equals(Arrays.asList(2, 3, 1, 3))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
