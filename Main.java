@@ -3,29 +3,26 @@ import java.lang.*;
 
 class Solution {
     /**
-    Return True is list elements are monotonically increasing or decreasing.
-    >>> monotonic(Arrays.asList(1, 2, 4, 20))
-    true
-    >>> monotonic(Arrays.asList(1, 20, 4, 10))
-    false
-    >>> monotonic(Arrays.asList(4, 1, 0, -10))
-    true
+    Return sorted unique common elements for two lists.
+    >>> common(Arrays.asList(1, 4, 3, 34, 653, 2, 5), Arrays.asList(5, 7, 1, 5, 9, 653, 121))
+    [1, 5, 653]
+    >>> common(Arrays.asList(5, 3, 2, 8), Arrays.asList(3, 2))
+    [2, 3]
      */
-    public boolean monotonic(List<Integer> l) {
+    public List<Integer> common(List<Integer> l1, List<Integer> l2) {
 
-        List<Integer> l1 = new ArrayList<>(l), l2 = new ArrayList<>(l);
-        Collections.sort(l1);
-        l2.sort(Collections.reverseOrder());
-        return l.equals(l1) && l.equals(l2);
+        Set<Integer> ret = new HashSet<>(l1);
+        List<Integer> result = new ArrayList<>(ret);
+        Collections.sort(result);
+        return result;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.monotonic(new ArrayList<>(Arrays.asList(1, 2, 4, 10))),
-                !s.monotonic(new ArrayList<>(Arrays.asList(1, 20, 4, 10))),
-                s.monotonic(new ArrayList<>(Arrays.asList(4, 1, 0, -10)))
+                s.common(new ArrayList<>(Arrays.asList(1, 4, 3, 34, 653, 2, 5)), new ArrayList<>(Arrays.asList(5, 7, 1, 5, 9, 653, 121))).equals(Arrays.asList(1, 5, 653)),
+                s.common(new ArrayList<>(Arrays.asList(5, 3, 2, 8)), new ArrayList<>(Arrays.asList(3, 2))).equals(Arrays.asList(2, 3))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
