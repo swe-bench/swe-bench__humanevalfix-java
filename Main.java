@@ -3,43 +3,47 @@ import java.lang.*;
 
 class Solution {
     /**
-    You are given a word. Your task is to find the closest vowel that stands between
-    two consonants from the right side of the word (case sensitive).
+    You are given a list of two strings, both strings consist of open
+    parentheses "(" or close parentheses ")" only.
+    Your job is to check if it is possible to concatenate the two strings in
+    some order, that the resulting string will be good.
+    A string S is considered to be good if and only if all parentheses in S
+    are balanced. For example: the string "(())()" is good, while the string
+    "())" is not.
+    Return "Yes" if there"s a way to make a good string, and return "No" otherwise.
 
-    Vowels in the beginning and ending doesn't count. Return empty string if you didn't
-    find any vowel met the above condition.
-
-    You may assume that the given string contains English letter only.
-
-    Example:
-    getClosestVowel("yogurt") ==> "u"
-    getClosestVowel("FULL") ==> "U"
-    getClosestVowel("quick") ==> ""
-    getClosestVowel("ab") ==> ""
+    Examples:
+    matchParens(Arrays.asList("()(", ")")) == "Yes"
+    matchParens(Arrays.asList(")", ")")) == "No"
      */
-    public String getClosestVowel(String word) {
+    public String matchParens(List<String> lst) {
 
-        if (word.length() < 3) {
-            return " ";
-        }
-
-        String vowels = "aeiouAEIOU";
-        for (int i = word.length() - 2; i > 0; i--) {
-            if (vowels.indexOf(word.charAt(i)) != -1 && vowels.indexOf(word.charAt(i + 1)) == -1 && vowels.indexOf(word.charAt(i - 1)) == -1) {
-                return String.valueOf(word.charAt(i));
+        List<String> S = Arrays.asList(lst.get(0) + lst.get(1), lst.get(1) + lst.get(0));
+        for (String s : S) {
+            int val = 0;
+            for (char i : s.toCharArray()) {
+                if (i == '(') {
+                    val += 1;
+                } else {
+                    val -= 1;
+                }
+                if (val < 0) {
+                    break;
+                }
+            }
+            if (val == 0) {
+                return "yes";
             }
         }
-        return " ";
+        return "no";
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.getClosestVowel("yogurt").equals("u"),
-                s.getClosestVowel("FULL").equals("U"),
-                s.getClosestVowel("ab").equals(""),
-                s.getClosestVowel("quick").equals("")
+                s.matchParens(Arrays.asList("()(", ")")).equals("Yes"),
+                s.matchParens(Arrays.asList(")", ")")).equals("No")
         );
         if (correct.contains(false)) {
             throw new AssertionError();
