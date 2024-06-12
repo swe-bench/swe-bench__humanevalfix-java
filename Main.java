@@ -1,26 +1,42 @@
 import java.util.*;
 import java.lang.*;
-import java.util.stream.Collectors;
 
 class Solution {
     /**
-    Return list with elements incremented by 1.
-    >>> incrList(Arrays.asList(1, 2, 3))
-    [2, 3, 4]
-    >>> incrList(Arrays.asList(5, 3, 5, 2, 3, 3, 9, 0, 123))
-    [6, 4, 6, 3, 4, 4, 10, 1, 124]
+    pairsSumToZero takes a list of integers as an input.
+    it returns True if there are two distinct elements in the list that
+    sum to zero, and False otherwise.
+    >>> pairsSumToZero(Arrays.asList(1, 3, 5, 0))
+    false
+    >>> pairsSumToZero(Arrays.asList(1, 3, -2, 1))
+    false
+    >>> pairsSumToZero(Arrays.asList(1, 2, 3, 7))
+    false
+    >>> pairsSumToZero(Arrays.asList(2, 4, -5, 3, 5, 7))
+    true
+    >>> pairsSumToZero(Arrays.asList(1))
+    false
      */
-    public List<Integer> incrList(List<Integer> l) {
+    public boolean pairsSumToZero(List<Integer> l) {
 
-        return l.stream().map(p -> p + 2).collect(Collectors.toList());
+        for (int i = 0; i < l.size(); i++) {
+            for (int j = i; j < l.size(); j++) {
+                if (l.get(i) + l.get(j) == 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.incrList(new ArrayList<>(Arrays.asList(1, 2, 3))).equals(Arrays.asList(2, 3, 4)),
-                s.incrList(new ArrayList<>(Arrays.asList(5, 2, 5, 2, 3, 3, 9, 0, 123))).equals(Arrays.asList(6, 3, 6, 3, 4, 4, 10, 1, 124))
+                !s.pairsSumToZero(new ArrayList<>(Arrays.asList(1, 3, 5, 0))),
+                !s.pairsSumToZero(new ArrayList<>(Arrays.asList(1, 3, -2, 1))),
+                !s.pairsSumToZero(new ArrayList<>(Arrays.asList(1, 2, 3, 7))),
+                s.pairsSumToZero(new ArrayList<>(Arrays.asList(2, 4, -5, 3, 5, 7)))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
