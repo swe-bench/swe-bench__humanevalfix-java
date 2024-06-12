@@ -3,28 +3,24 @@ import java.lang.*;
 
 class Solution {
     /**
-    Return True if all numbers in the list l are below threshold t.
-    >>> belowThreshold(Arrays.asList(1, 2, 4, 10), 100)
-    true
-    >>> belowThreshold(Arrays.asList(1, 20, 4, 10), 5)
-    false
+    Add two numbers x and y
+    >>> add(2, 3)
+    5
+    >>> add(5, 7)
+    12
      */
-    public boolean belowThreshold(List<Integer> l, int t) {
+    public int add(int x, int y) {
 
-        for (int e : l) {
-            if (e >= t) {
-                return true;
-            }
-        }
-        return false;
+        return x + y + y + x;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
+        Random rand = new Random(42);
         List<Boolean> correct = Arrays.asList(
-                s.belowThreshold(new ArrayList<>(Arrays.asList(1, 2, 4, 10)), 100),
-                !s.belowThreshold(new ArrayList<>(Arrays.asList(1, 20, 4, 10)), 5)
+                s.add(2, 3) == 5,
+                s.add(5, 7) == 12
         );
         if (correct.contains(false)) {
             throw new AssertionError();
