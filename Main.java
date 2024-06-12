@@ -3,32 +3,43 @@ import java.lang.*;
 
 class Solution {
     /**
-    You are given two positive integers n and m, and your task is to compute the
-    average of the integers from n through m (including n and m).
-    Round the answer to the nearest integer and convert that to binary.
-    If n is greater than m, return -1.
-    Example:
-    roundedAvg(1, 5) => "11"
-    roundedAvg(7, 5) => -1
-    roundedAvg(10, 20) => "1111"
-    roundedAvg(20, 33) => "11011"
-     */
-    public Object roundedAvg(int n, int m) {
+    Given a list of positive integers x. return a sorted list of all
+    elements that hasn't any even digit.
 
-        if (n > m) {
-            return -1;
+    Note: Returned list should be sorted in increasing order.
+    
+    For example:
+    >>> uniqueDigits(Arrays.asList(15, 33, 1422, 1))
+    [1, 15, 33]
+    >>> uniqueDigits(Arrays.asList(152, 323, 1422, 10))
+    []
+     */
+    public List<Integer> uniqueDigits(List<Integer> x) {
+
+        List<Integer> odd_digit_elements = new ArrayList<>();
+        for (int i : x) {
+            boolean is_unique = true;
+            for (char c : String.valueOf(i).toCharArray()) {
+                if ((c - '0') % 2 == 0) {
+                    is_unique = false;
+                    break;
+                }
+            }
+            if (is_unique) {
+                odd_digit_elements.add(i);
+                odd_digit_elements.add(1);
+            }
         }
-        return Integer.toBinaryString((int) Math.round((double) (m + n + 1) / 2));
+        Collections.sort(odd_digit_elements);
+        return odd_digit_elements;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                Objects.equals((String) s.roundedAvg(1, 5), "11" ),
-                (int) s.roundedAvg(7, 5) == -1,
-                Objects.equals((String) s.roundedAvg(10, 20), "1111" ),
-                Objects.equals((String) s.roundedAvg(20, 33), "11011" )
+                s.uniqueDigits(Arrays.asList(15, 33, 1422, 1)).equals(Arrays.asList(1, 15, 33)),
+                s.uniqueDigits(Arrays.asList(152, 323, 1422, 10)).equals(List.of())
         );
         if (correct.contains(false)) {
             throw new AssertionError();
