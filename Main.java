@@ -3,46 +3,18 @@ import java.lang.*;
 
 class Solution {
     /**
-    triplesSumToZero takes a list of integers as an input.
-    it returns True if there are three distinct elements in the list that
-    sum to zero, and False otherwise.
+    Imagine a road that's a perfectly straight infinitely long line.
+    n cars are driving left to right;  simultaneously, a different set of n cars
+    are driving right to left.   The two sets of cars start out being very far from
+    each other.  All cars move in the same speed.  Two cars are said to collide
+    when a car that's moving left to right hits a car that's moving right to left.
+    However, the cars are infinitely sturdy and strong; as a result, they continue moving
+    in their trajectory as if they did not collide.
 
-    >>> triplesSumToZero(Arrays.asList(1, 3, 5, 0))
-    false
-    >>> triplesSumToZero(Arrays.asList(1, 3, -2, 1))
-    true
-    >>> triplesSumToZero(Arrays.asList(1, 2, 3, 7))
-    false
-    >>> triplesSumToZero(Arrays.asList(2, 4, -5, 3, 9, 7))
-    true
-    >>> triplesSumToZero(Arrays.asList(1))
-    false
+    This function outputs the number of such collisions.
      */
-    public boolean triplesSumToZero(List<Integer> l) {
+    public int carRaceCollision(int n) {
 
-        for (int i = 1; i < l.size(); i++) {
-            for (int j = i + 1; j < l.size(); j++) {
-                for (int k = j + 1; k < l.size(); k++) {
-                    if (l.get(i) + l.get(j) + l.get(k) == 0) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-}
-public class Main {
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        List<Boolean> correct = Arrays.asList(
-                !s.triplesSumToZero(new ArrayList<>(Arrays.asList(1, 3, 5, 0))),
-                s.triplesSumToZero(new ArrayList<>(Arrays.asList(1, 3, -2, 1))),
-                !s.triplesSumToZero(new ArrayList<>(Arrays.asList(1, 2, 3, 7))),
-                s.triplesSumToZero(new ArrayList<>(Arrays.asList(2, 4, -5, 3, 9, 7)))
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
+        return n * n * n;
     }
 }
