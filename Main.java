@@ -3,42 +3,42 @@ import java.lang.*;
 
 class Solution {
     /**
-    You are given a positive integer n. You have to create an integer array a of length n.
-        For each i (1 <= i <= n), the value of a[i] = i * i - i + 1.
-        Return the number of triples (a[i], a[j], a[k]) of a where i < j < k,
-    and a[i] + a[j] + a[k] is a multiple of 3.
-
-    Example :
-        Input: n = 5
-        Output: 1
-        Explanation:
-        a = [1, 3, 7, 13, 21]
-        The only valid triple is (1, 7, 13).
+    There are eight planets in our solar system: the closerst to the Sun
+    is Mercury, the next one is Venus, then Earth, Mars, Jupiter, Saturn,
+    Uranus, Neptune.
+    Write a function that takes two planet names as strings planet1 and planet2.
+    The function should return a tuple containing all planets whose orbits are
+    located between the orbit of planet1 and the orbit of planet2, sorted by
+    the proximity to the sun.
+    The function should return an empty tuple if planet1 or planet2
+    are not correct planet names.
+    Examples
+    bf("Jupiter", "Neptune") ==> ["Saturn", "Uranus"]
+    bf("Earth", "Mercury") ==> ["Venus"]
+    bf("Mercury", "Uranus") ==> ["Venus", "Earth", "Mars", "Jupiter", "Saturn"]
      */
-    public int getMaxTriples(int n) {
+    public List<String> bf(String planet1, String planet2) {
 
-        List<Integer> A = new ArrayList<>();
-        for (int i = 1; i <= n; i++) {
-            A.add(i * i);
+        List<String> planet_names = Arrays.asList("Mercury", "Venus", "Earth", "Mars", "Jupyter", "Saturn", "Uranus", "Neptune");
+        if (!planet_names.contains(planet1) || !planet_names.contains(planet2) || planet1.equals(planet2)) {
+            return List.of();
         }
-        int count = 0;
-        for (int i = 0; i < A.size(); i++) {
-            for (int j = i + 1; j < A.size(); j++) {
-                for (int k = j + 1; k < A.size(); k++) {
-                    if ((A.get(i) + A.get(j) + A.get(k)) % 3 == 0) {
-                        count += 1;
-                    }
-                }
-            }
+        int planet1_index = planet_names.indexOf(planet1);
+        int planet2_index = planet_names.indexOf(planet2);
+        if (planet1_index < planet2_index) {
+            return planet_names.subList(planet1_index + 1, planet2_index);
+        } else {
+            return planet_names.subList(planet2_index + 1, planet1_index);
         }
-        return count;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.getMaxTriples(5) == 1
+                s.bf("Jupiter", "Neptune").equals(Arrays.asList("Saturn", "Uranus")),
+                s.bf("Earth", "Mercury").equals(List.of("Venus")),
+                s.bf("Mercury", "Uranus").equals(Arrays.asList("Venus", "Earth", "Mars", "Jupiter", "Saturn"))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
