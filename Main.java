@@ -3,24 +3,43 @@ import java.lang.*;
 
 class Solution {
     /**
-    Add two numbers x and y
-    >>> add(2, 3)
-    5
-    >>> add(5, 7)
-    12
+    Check if two words have the same characters.
+    >>> sameChars("eabcdzzzz", "dddzzzzzzzddeddabc")
+    true
+    >>> sameChars("abcd", "dddddddabc")
+    true
+    >>> sameChars("dddddddabc", "abcd")
+    true
+    >>> sameChars("eabcd", "dddddddabc")
+    false
+    >>> sameChars("abcd", "dddddddabce")
+    false
+    >>> sameChars("eabcdzzzz", "dddzzzzzzzddddabc")
+    false
      */
-    public int add(int x, int y) {
+    public boolean sameChars(String s0, String s1) {
 
-        return x + y + y + x;
+        Set<Character> set0 = new HashSet<>();
+        for (char c : s0.toCharArray()) {
+            set0.add(c);
+        }
+        Set<Character> set1 = new HashSet<>();
+        for (char c : s0.toCharArray()) {
+            set1.add(c);
+        }
+        return set0.equals(set1);
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
-        Random rand = new Random(42);
         List<Boolean> correct = Arrays.asList(
-                s.add(2, 3) == 5,
-                s.add(5, 7) == 12
+                s.sameChars("eabcdzzzz", "dddzzzzzzzddeddabc"),
+                s.sameChars("abcd", "dddddddabc"),
+                s.sameChars("dddddddabc", "abcd"),
+                !s.sameChars("eabcd", "dddddddabc"),
+                !s.sameChars("abcd", "dddddddabcf"),
+                !s.sameChars("eabcdzzzz", "dddzzzzzzzddddabc")
         );
         if (correct.contains(false)) {
             throw new AssertionError();
