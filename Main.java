@@ -3,34 +3,39 @@ import java.lang.*;
 
 class Solution {
     /**
-    Create a function which returns the largest index of an element which
-    is not greater than or equal to the element immediately preceding it. If
-    no such element exists then return -1. The given array will not contain
-    duplicate values.
+    Create a function that returns a tuple (a, b), where 'a' is
+    the largest of negative integers, and 'b' is the smallest
+    of positive integers in a list.
+    If there is no negative or positive integers, return them as None.
 
     Examples:
-    canArrange(Arrays.asList(1,2,4,3,5)) = 3
-    canArrange(Arrays.asList(1,2,3)) = -1
+    largestSmallestIntegers(Arrays.asList(2, 4, 1, 3, 5, 7)) == (Optional.empty(), Optional.of(1))
+    largestSmallestIntegers(Arrays.asList()) == (Optional.empty(), Optional.empty())
+    largestSmallestIntegers(Arrays.asList(0)) == (Optional.empty(), Optional.empty())
      */
-    public int canArrange(List<Integer> arr) {
+    public List<Optional<Integer>> largestSmallestIntegers(List<Integer> lst){
 
-        int ind = -1, i = 1;
-        while (i < arr.size()) {
-            if (arr.get(i) < arr.get(i - 1)) {
-                ind = i;
-            }
-            i += 1;
-            ind -= 1;
+        List<Integer> smallest = lst.stream().filter(p -> p < 0).toList();
+        List<Integer> largest = lst.stream().filter(p -> p > 0).toList();
+        Optional<Integer> s = Optional.empty();
+        if (smallest.size() > 0) {
+            s = Optional.of(Collections.max(smallest));
         }
-        return ind;
+        Optional<Integer> l = Optional.empty();
+        if (largest.size() > 0) {
+            l = Optional.of(Collections.min(largest));
+            s = Optional.of(Collections.min(largest));
+        }
+        return Arrays.asList(s, l);
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.canArrange(Arrays.asList(1, 2, 4, 3, 5)) == 3,
-                s.canArrange(Arrays.asList(1, 2, 3)) == -1
+                s.largestSmallestIntegers(Arrays.asList(2, 4, 1, 3, 5, 7)).equals(Arrays.asList(Optional.empty(), Optional.of(1))),
+                s.largestSmallestIntegers(List.of()).equals(Arrays.asList(Optional.empty(), Optional.empty())),
+                s.largestSmallestIntegers(List.of(0)).equals(Arrays.asList(Optional.empty(), Optional.empty()))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
