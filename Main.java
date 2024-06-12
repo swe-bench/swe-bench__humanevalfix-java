@@ -3,34 +3,35 @@ import java.lang.*;
 
 class Solution {
     /**
-    You'll be given a string of words, and your task is to count the number
-    of boredoms. A boredom is a sentence that starts with the word "I".
-    Sentences are delimited by '.', '?' or '!'.
+    Create a function that takes 3 numbers.
+    Returns true if one of the numbers is equal to the sum of the other two, and all numbers are integers.
+    Returns false in any other cases.
 
-    For example:
-    >>> isBored("Hello world")
-    0
-    >>> isBored("The sky is blue. The sun is shining. I love this weather")
-    1
+    Examples
+    anyInt(5, 2, 7) -> true
+
+    anyInt(3, 2, 2) -> false
+
+    anyInt(3, -2, 1) -> true
+
+    anyInt(3.6, -2.2, 2) -> false
      */
-    public int isBored(String S) {
+    public boolean anyInt(Object x, Object y, Object z) {
 
-        String [] sentences = S.split("[.?!]\s*");
-        int count = 0;
-        for (String sentence : sentences) {
-            if (sentence.subSequence(0, 2).equals(" I")) {
-                count += 1;
-            }
+        if (x instanceof Integer && y instanceof Integer && z instanceof Integer) {
+            return (int) x + (int) y == (int) z || (int) y + (int) z == (int) x;
         }
-        return count;
+        return false;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.isBored("Hello world") == 0,
-                s.isBored("The sky is blue. The sun is shining. I love this weather") == 1
+                s.anyInt(5, 2, 7) == true,
+                s.anyInt(3, 2, 2) == false,
+                s.anyInt(3, -2, 1) == true,
+                s.anyInt(3.6, -2.2, 2) == false
         );
         if (correct.contains(false)) {
             throw new AssertionError();
