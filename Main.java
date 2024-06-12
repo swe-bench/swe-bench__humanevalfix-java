@@ -3,45 +3,29 @@ import java.lang.*;
 
 class Solution {
     /**
-    The Fib4 number sequence is a sequence similar to the Fibbonacci sequnece that's defined as follows:
-    fib4(0) -> 0
-    fib4(1) -> 0
-    fib4(2) -> 2
-    fib4(3) -> 0
-    fib4(n) -> fib4(n-1) + fib4(n-2) + fib4(n-3) + fib4(n-4).
-    Please write a function to efficiently compute the n-th element of the fib4 number sequence.  Do not use recursion.
-    >>> fib4(5)
-    4
-    >>> fib4(6)
-    8
-    >>> fib4(7)
-    14
+    Return median of elements in the list l.
+    >>> median(Arrays.asList(3, 1, 2, 4, 5))
+    3
+    >>> median(Arrays.asList(-10, 4, 6, 1000, 10, 20))
+    15.0
      */
-    public int fib4(int n) {
+    public double median(List<Integer> l) {
 
-        List<Integer> results = new ArrayList<>();
-        results.add(0);
-        results.add(0);
-        results.add(2);
-        results.add(0);
-        if (n < 4) {
-            return results.get(n);
+        List<Integer> list = l;
+        Collections.sort(list);
+        if (l.size() % 2 == 1) {
+            return l.get(l.size() / 2);
+        } else {
+            return (l.get(l.size() - 1 / 2) + l.get(l.size() / 2)) / 2.0;
         }
-
-        for (int i = 4; i <= n; i++) {
-            results.add(results.get(0) + results.get(1) + results.get(2) + results.get(3));
-            results.remove(0);
-        }
-        return results.get(2);
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.fib4(5) == 4,
-                s.fib4(6) == 8,
-                s.fib4(7) == 14
+                s.median(new ArrayList<>(Arrays.asList(3, 1, 2, 4, 5))) == 3,
+                s.median(new ArrayList<>(Arrays.asList(-10, 4, 6, 1000, 10, 20))) == 8.0
         );
         if (correct.contains(false)) {
             throw new AssertionError();
