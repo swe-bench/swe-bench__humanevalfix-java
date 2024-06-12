@@ -3,54 +3,42 @@ import java.lang.*;
 
 class Solution {
     /**
-    You are given a rectangular grid of wells. Each row represents a single well,
-    and each 1 in a row represents a single unit of water.
-    Each well has a corresponding bucket that can be used to extract water from it,
-    and all buckets have the same capacity.
-    Your task is to use the buckets to empty the wells.
-    Output the number of times you need to lower the buckets.
-
-    Example 1:
-        Input:
-            grid : [[0,0,1,0], [0,1,0,0], [1,1,1,1]]
-            bucket_capacity : 1
-        Output: 6
-
-    Example 2:
-        Input:
-            grid : [[0,0,1,1], [0,0,0,0], [1,1,1,1], [0,1,1,1]]
-            bucket_capacity : 2
-        Output: 5
-
-    Example 3:
-        Input:
-            grid : [[0,0,0], [0,0,0]]
-            bucket_capacity : 5
-        Output: 0
-
-    Constraints:
-        * all wells have the same length
-        * 1 <= grid.length <= 10^2
-        * 1 <= grid[:,1].length <= 10^2
-        * grid[i][j] -> 0 | 1
-        * 1 <= capacity <= 10
+    In this Kata, you have to sort an array of non-negative integers according to
+    number of ones in their binary representation in ascending order.
+    For similar number of ones, sort based on decimal value.
+    <p>
+    It must be implemented like this:
+    >>> sortArray(Arrays.asList(1, 5, 2, 3, 4)).equals(Arrays.asList(1, 2, 3, 4, 5))
+    >>> sortArray(Arrays.asList(-2, -3, -4, -5, -6)).equals(Arrays.asList(-6, -5, -4, -3, -2))
+    >>> sortArray(Arrays.asList(1, 0, 2, 3, 4)).equals(Arrays.asList(0, 1, 2, 3, 4))
      */
-    public int maxFill(List<List<Integer>> grid, int capacity) {
+    public List<Integer> sortArray(List<Integer> arr) {
 
-        int sum = 0;
-        for (List<Integer> arr : grid) {
-            sum += Math.floor((double) arr.stream().reduce(Integer::sum).get() / capacity);
-        }
-        return sum;
+                List < Integer > sorted_arr = new ArrayList<>(arr);
+        sorted_arr.sort(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                int cnt1 = (int) Integer.toBinaryString(Math.abs(o1)).chars().filter(ch -> ch == '1').count();
+                int cnt2 = (int) Integer.toBinaryString(Math.abs(o2)).chars().filter(ch -> ch == '1').count();
+                if (cnt1 > cnt2) {
+                    return 1;
+                } else if (cnt1 < cnt2) {
+                    return -1;
+                } else {
+                    return o1.compareTo(o2);
+                }
+            }
+        });
+        return arr;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.maxFill(Arrays.asList(Arrays.asList(0, 0, 1, 0), Arrays.asList(0, 1, 0, 0), Arrays.asList(1, 1, 1, 1)), 1) == 6,
-                s.maxFill(Arrays.asList(Arrays.asList(0, 0, 1, 1), Arrays.asList(0, 0, 0, 0), Arrays.asList(1, 1, 1, 1), Arrays.asList(0, 1, 1, 1)), 2) == 5,
-                s.maxFill(Arrays.asList(Arrays.asList(0, 0, 0), Arrays.asList(0, 0, 0)), 5) == 0
+                s.sortArray(new ArrayList<>(Arrays.asList(1, 5, 2, 3, 4))).equals(Arrays.asList(1, 2, 4, 3, 5)),
+                s.sortArray(new ArrayList<>(Arrays.asList(-2, -3, -4, -5, -6))).equals(Arrays.asList(-4, -2, -6, -5, -3)),
+                s.sortArray(new ArrayList<>(Arrays.asList(1, 0, 2, 3, 4))).equals(Arrays.asList(0, 1, 2, 4, 3))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
