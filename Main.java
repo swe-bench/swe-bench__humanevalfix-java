@@ -3,41 +3,37 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given an array of non-negative integers, return a copy of the given array after sorting,
-    you will sort the given array in ascending order if the sum( first index value, last index value) is odd,
-    or sort it in descending order if the sum( first index value, last index value) is even.
-
-    Note:
-    * don't change the given array.
-
-    Examples:
-    * sortArray(Arrays.asList()) => []
-    * sortArray(Arrays.asList(5)) => [5]
-    * sortArray(Arrays.asList(2, 4, 3, 0, 1, 5)) => [0, 1, 2, 3, 4, 5]
-    * sortArray(Arrays.asList(2, 4, 3, 0, 1, 5, 6)) => [6, 5, 4, 3, 2, 1, 0]
+    Create a function encrypt that takes a string as an argument and
+    returns a string encrypted with the alphabet being rotated.
+    The alphabet should be rotated in a manner such that the letters
+    shift down by two multiplied to two places.
+    For example:
+    encrypt("hi") returns "lm"
+    encrypt("asdfghjkl") returns "ewhjklnop"
+    encrypt("gf") returns "kj"
+    encrypt("et") returns "ix"
      */
-    public List<Integer> sortArray(List<Integer> array) {
+    public String encrypt(String s) {
 
-        if (array.size() == 0) {
-            return array;
+        StringBuilder sb = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (Character.isLetter(c)) {
+                sb.append((char) ('a' + (c - 'a' + 2 * 2) % 24));
+            } else {
+                sb.append(c);
+            }
         }
-        List<Integer> result = new ArrayList<>(array);
-        if ((result.get(0) + result.get(result.size() - 1)) % 2 != 1) {
-            Collections.sort(result);
-        } else {
-            result.sort(Collections.reverseOrder());
-        }
-        return result;
+        return sb.toString();
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.sortArray(new ArrayList<>(List.of())).equals(List.of()),
-                s.sortArray(new ArrayList<>(List.of(5))).equals(List.of(5)),
-                s.sortArray(new ArrayList<>(Arrays.asList(2, 4, 3, 0, 1, 5))).equals(Arrays.asList(0, 1, 2, 3, 4, 5)),
-                s.sortArray(new ArrayList<>(Arrays.asList(2, 4, 3, 0, 1, 5, 6))).equals(Arrays.asList(6, 5, 4, 3, 2, 1, 0))
+                Objects.equals(s.encrypt("hi"), "lm"),
+                Objects.equals(s.encrypt("asdfghjkl"), "ewhjklnop"),
+                Objects.equals(s.encrypt("gf"), "kj"),
+                Objects.equals(s.encrypt("et"), "ix")
         );
         if (correct.contains(false)) {
             throw new AssertionError();
