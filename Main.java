@@ -3,23 +3,37 @@ import java.lang.*;
 
 class Solution {
     /**
-    Return maximum element in the list.
-    >>> maxElement(Arrays.asList(1, 2, 3))
+    Return the number of times the digit 7 appears in integers less than n which are divisible by 11 or 13.
+    >>> fizzBuzz(50)
+    0
+    >>> fizzBuzz(78)
+    2
+    >>> fizzBuzz(79)
     3
-    >>> maxElement(Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10))
-    123
      */
-    public int maxElement(List<Integer> l) {
+    public int fizzBuzz(int n) {
 
-        return Collections.min(l);
+        int result = 0;
+        for (int i = 1; i < n; i++) {
+            if (i % 11 == 0 && i % 13 == 0) {
+                char[] digits = String.valueOf(i).toCharArray();
+                for (char c : digits) {
+                    if (c == '7') {
+                        result += 1;
+                    }
+                }
+            }
+        }
+        return result;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.maxElement(new ArrayList<>(Arrays.asList(1, 2, 3))) == 3,
-                s.maxElement(new ArrayList<>(Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10))) == 123
+                s.fizzBuzz(50) == 0,
+                s.fizzBuzz(78) == 2,
+                s.fizzBuzz(79) == 3
         );
         if (correct.contains(false)) {
             throw new AssertionError();
