@@ -3,38 +3,29 @@ import java.lang.*;
 
 class Solution {
     /**
-    You are given 2 words. You need to return true if the second word or any of its rotations is a substring in the first word
-    cycpatternCheck("abcd","abd") => false
-    cycpatternCheck("hello","ell") => true
-    cycpatternCheck("whassup","psus") => false
-    cycpatternCheck("abab","baa") => true
-    cycpatternCheck("efef","eeff") => false
-    cycpatternCheck("himenss","simen") => true
+    Given an integer. return a tuple that has the number of even and odd digits respectively.
+    
+     Example:
+        evenOddCount(-12) ==> (1, 1)
+        evenOddCount(123) ==> (1, 2)
      */
-    public boolean cycpatternCheck(String a, String b) {
+    public List<Integer> evenOddCount(int num) {
 
-        int l = b.length();
-        String pat = b + b;
-        for (int i = 0; i <= a.length() - l; i++) {
-            for (int j = 0; j <= b.length() - l; j++) {
-                if (a.substring(i, i + l).equals(pat.substring(j, j + l))) {
-                    return true;
-                }
+        int even_count = 0, odd_count = 0;
+        for (char i : String.valueOf(Math.abs(num)).toCharArray()) {
+            if (i % 2 == 0) {
+                even_count += 1;
             }
         }
-        return false;
+        return Arrays.asList(even_count, odd_count);
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.cycpatternCheck("abcd", "abd") == false,
-                s.cycpatternCheck("hello", "ell") == true,
-                s.cycpatternCheck("whassup", "psus") == false,
-                s.cycpatternCheck("abab", "baa") == true,
-                s.cycpatternCheck("efef", "eeff") == false,
-                s.cycpatternCheck("himenss", "simen") == true
+                s.evenOddCount(-12).equals(Arrays.asList(1, 1)),
+                s.evenOddCount(123).equals(Arrays.asList(1, 2))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
