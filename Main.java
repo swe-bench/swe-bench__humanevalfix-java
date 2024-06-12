@@ -3,48 +3,33 @@ import java.lang.*;
 
 class Solution {
     /**
-    You are given a string representing a sentence,
-    the sentence contains some words separated by a space,
-    and you have to return a string that contains the words from the original sentence,
-    whose lengths are prime numbers,
-    the order of the words in the new string should be the same as the original one.
+    Your task is to implement a function that will simplify the expression
+    x * n. The function returns true if x * n evaluates to a whole number and false
+    otherwise. Both x and n, are string representation of a fraction, and have the following format,
+    <numerator>/<denominator> where both numerator and denominator are positive whole numbers.
 
-    Example 1:
-        Input: sentence = "This is a test"
-        Output: "is"
+    You can assume that x, and n are valid fractions, and do not have zero as denominator.
 
-    Example 2:
-        Input: sentence = "lets go for swimming"
-        Output: "go for"
-
-    Constraints:
-        * 1 <= len(sentence) <= 100
-        * sentence contains only letters
+    simplify("1/5", "5/1") = true
+    simplify("1/6", "2/1") = false
+    simplify("7/10", "10/2") = false
      */
-    public String wordsInSentence(String sentence) {
+    public boolean simplify(String x, String n) {
 
-        List<String> new_lst = new ArrayList<>();
-        for (String word : sentence.split(" " )) {
-            boolean flg = true;
-            for (int i = 2; i < word.length(); i++) {
-                if (word.length() % i == 0) {
-                    flg = false;
-                    break;
-                }
-            }
-            if (flg) {
-                new_lst.add(word);
-            }
-        }
-        return String.join(" ", new_lst);
+        String[] a = x.split("/");
+        String[] b = n.split("/");
+        int numerator = Integer.parseInt(a[0]) * Integer.parseInt(b[0]);
+        int denom = Integer.parseInt(a[1]) * Integer.parseInt(b[1]) * numerator;
+        return numerator / denom * denom == numerator;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.wordsInSentence("This is a test" ), "is" ),
-                Objects.equals(s.wordsInSentence("lets go for swimming" ), "go for" )
+                s.simplify("1/5", "5/1") == true,
+                s.simplify("1/6", "2/1") == false,
+                s.simplify("7/10", "10/2") == false
         );
         if (correct.contains(false)) {
             throw new AssertionError();
