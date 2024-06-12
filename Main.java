@@ -3,39 +3,14 @@ import java.lang.*;
 
 class Solution {
     /**
-    Write a function that takes a string and returns true if the string
-    length is a prime number or false otherwise
-    Examples
-    primeLength("Hello") == true
-    primeLength("abcdcba") == true
-    primeLength("kittens") == true
-    primeLength("orange") == false
+    Given a positive integer n, return the count of the numbers of n-digit
+    positive integers that start or end with 1.
      */
-    public boolean primeLength(String string) {
+    public int startsOneEnds(int n) {
 
-        int l = string.length();
-        if (l == 0 || l == 1) {
-            return false;
+        if (n == 1) {
+            return 1;
         }
-        for (int i = 3; i < l; i++) {
-            if (l % i == 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-}
-public class Main {
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        List<Boolean> correct = Arrays.asList(
-                s.primeLength("Hello") == true,
-                s.primeLength("abcdcba") == true,
-                s.primeLength("kittens") == true,
-                s.primeLength("orange") == false
-        );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
+        return 18 * n * (int) Math.pow(10, n - 2);
     }
 }
