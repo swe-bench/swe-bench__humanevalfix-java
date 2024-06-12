@@ -3,21 +3,23 @@ import java.lang.*;
 
 class Solution {
     /**
-    Return sorted unique elements in a list
-    >>> unique(Arrays.asList(5, 3, 5, 2, 3, 3, 9, 0, 123))
-    [0, 2, 3, 5, 9, 123]
+    Return maximum element in the list.
+    >>> maxElement(Arrays.asList(1, 2, 3))
+    3
+    >>> maxElement(Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10))
+    123
      */
-    public List<Integer> unique(List<Integer> l) {
+    public int maxElement(List<Integer> l) {
 
-        Collections.sort(l);
-        return l;
+        return Collections.min(l);
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.unique(new ArrayList<>(Arrays.asList(5, 3, 5, 2, 3, 3, 9, 0, 123))).equals(Arrays.asList(0, 2, 3, 5, 9, 123))
+                s.maxElement(new ArrayList<>(Arrays.asList(1, 2, 3))) == 3,
+                s.maxElement(new ArrayList<>(Arrays.asList(5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10))) == 123
         );
         if (correct.contains(false)) {
             throw new AssertionError();
