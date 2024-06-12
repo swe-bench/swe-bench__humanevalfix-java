@@ -3,50 +3,43 @@ import java.lang.*;
 
 class Solution {
     /**
-    primeFib returns n-th number that is a Fibonacci number and it's also prime.
-    >>> primeFib(1)
-    2
-    >>> primeFib(2)
-    3
-    >>> primeFib(3)
-    5
-    >>> primeFib(4)
-    13
-    >>> primeFib(5)
-    89
-     */
-    public int primeFib(int n) {
+    triplesSumToZero takes a list of integers as an input.
+    it returns True if there are three distinct elements in the list that
+    sum to zero, and False otherwise.
 
-        int f0 = 0, f1 = 0;
-        while (true) {
-            int p = f0 + f1;
-            boolean is_prime = p >= 2;
-            for (int k = 2; k < Math.min(Math.sqrt(p), p); k++) {
-                if (p % k == 0) {
-                    is_prime = false;
-                    break;
+    >>> triplesSumToZero(Arrays.asList(1, 3, 5, 0))
+    false
+    >>> triplesSumToZero(Arrays.asList(1, 3, -2, 1))
+    true
+    >>> triplesSumToZero(Arrays.asList(1, 2, 3, 7))
+    false
+    >>> triplesSumToZero(Arrays.asList(2, 4, -5, 3, 9, 7))
+    true
+    >>> triplesSumToZero(Arrays.asList(1))
+    false
+     */
+    public boolean triplesSumToZero(List<Integer> l) {
+
+        for (int i = 1; i < l.size(); i++) {
+            for (int j = i + 1; j < l.size(); j++) {
+                for (int k = j + 1; k < l.size(); k++) {
+                    if (l.get(i) + l.get(j) + l.get(k) == 0) {
+                        return true;
+                    }
                 }
             }
-            if (is_prime) {
-                n -= 1;
-            }
-            if (n == 0) {
-                return p;
-            }
-            f0 = f1;
-            f1 = p;
         }
+        return false;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.primeFib(1) == 2,
-                s.primeFib(2) == 3,
-                s.primeFib(3) == 5,
-                s.primeFib(4) == 13,
-                s.primeFib(5) == 89
+                !s.triplesSumToZero(new ArrayList<>(Arrays.asList(1, 3, 5, 0))),
+                s.triplesSumToZero(new ArrayList<>(Arrays.asList(1, 3, -2, 1))),
+                !s.triplesSumToZero(new ArrayList<>(Arrays.asList(1, 2, 3, 7))),
+                s.triplesSumToZero(new ArrayList<>(Arrays.asList(2, 4, -5, 3, 9, 7)))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
