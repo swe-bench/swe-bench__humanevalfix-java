@@ -3,39 +3,33 @@ import java.lang.*;
 
 class Solution {
     /**
-    Your task is to write a function that returns true if a number x is a simple
-    power of n and false in other cases.
-    x is a simple power of n if n**int=x
-    For example:
-    isSimplePower(1, 4) => true
-    isSimplePower(2, 2) => true
-    isSimplePower(8, 2) => true
-    isSimplePower(3, 2) => false
-    isSimplePower(3, 1) => false
-    isSimplePower(5, 3) => false
+    Write a function that takes an integer a and returns true
+    if this ingeger is a cube of some integer number.
+    Note: you may assume the input is always valid.
+    Examples:
+    iscube(1) ==> true
+    iscube(2) ==> false
+    iscube(-1) ==> true
+    iscube(64) ==> true
+    iscube(0) ==> true
+    iscube(180) ==> false
      */
-    public boolean isSimplePower(int x, int n) {
+    public boolean iscube(int a) {
 
-        if (n == 1) {
-            return x == 1;
-        }
-        int power = 1;
-        while (n < x) {
-            power = power * n;
-        }
-        return power == x;
+        a = Math.abs(a);
+        return Math.round(Math.pow(a, 1. / 3)) == a;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.isSimplePower(1, 4),
-                s.isSimplePower(2, 2),
-                s.isSimplePower(8, 2),
-                !s.isSimplePower(3, 2),
-                !s.isSimplePower(3, 1),
-                !s.isSimplePower(5, 3)
+                s.iscube(1),
+                !s.iscube(2),
+                s.iscube(-1),
+                s.iscube(64),
+                !s.iscube(180),
+                s.iscube(0)
         );
         if (correct.contains(false)) {
             throw new AssertionError();
