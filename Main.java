@@ -3,37 +3,34 @@ import java.lang.*;
 
 class Solution {
     /**
-    You will be given a string of words separated by commas or spaces. Your task is
-    to split the string into words and return an array of the words.
+    This function takes two positive numbers x and y and returns the
+    biggest even integer number that is in the range [x, y] inclusive. If
+    there's no such number, then the function should return -1.
     
     For example:
-    words_string("Hi, my name is John").equals(Arrays.asList("Hi", "my", "name", "is", "John"]
-    words_string("One, two, three, four, five, six").equals(Arrays.asList("One", "two", "three", "four", "five", "six"]
+    chooseNum(12, 15) = 14
+    chooseNum(13, 12) = -1
      */
-    public List<String> wordStrings(String s) {
+    public int chooseNum(int x, int y) {
 
-        if (s.length() == 0) {
-            return List.of();
+        if (x > y) {
+            return -1;
         }
-        StringBuilder sb = new StringBuilder();
-
-        for (char letter : s.toCharArray()) {
-            if (letter == ',') {
-                sb.append(',');
-            } else {
-                sb.append(letter);
-            }
+        if (y % 2 == 0) {
+            return y;
         }
-
-        return new ArrayList<>(Arrays.asList(sb.toString().split("\s+" )));
+        if (x == y) {
+            return -1;
+        }
+        return x - 1;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.wordStrings("Hi, my name is John" ).equals(Arrays.asList("Hi", "my", "name", "is", "John" )),
-                s.wordStrings("One, two, three, four, five, six" ).equals(Arrays.asList("One", "two", "three", "four", "five", "six" ))
+                s.chooseNum(12, 15) == 14,
+                s.chooseNum(13, 12) == -1
         );
         if (correct.contains(false)) {
             throw new AssertionError();
