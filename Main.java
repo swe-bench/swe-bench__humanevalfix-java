@@ -3,25 +3,30 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given a positive integer N, return the total sum of its digits in binary.
+    Given a non-empty list of integers lst. add the even elements that are at odd indices..
 
-    Example
-        For N = 1000, the sum of digits will be 1 the output should be "1".
-        For N = 150, the sum of digits will be 6 the output should be "110".
-        For N = 147, the sum of digits will be 12 the output should be "1100".
-
-    Variables:
-        @N integer
-             Constraints: 0 <= N <= 10000.
-    Output:
-         a string of binary number
+    Examples:
+        add(Arrays.asList(4, 2, 6, 7)) ==> 2
      */
-    public String solve(int N) {
+    public int add(List<Integer> lst) {
 
         int sum = 0;
-        for (char c : String.valueOf(N).toCharArray()) {
-            sum = (c - '0');
+        for (int i = 1; i < lst.size(); i += 1) {
+            if (lst.get(i) % 2 == 0) {
+                sum += lst.get(i);
+            }
         }
-        return Integer.toBinaryString(sum);
+        return sum;
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        List<Boolean> correct = Arrays.asList(
+                s.add(new ArrayList<>(Arrays.asList(4, 2, 6, 7))) == 2
+        );
+        if (correct.contains(false)) {
+            throw new AssertionError();
+        }
     }
 }
