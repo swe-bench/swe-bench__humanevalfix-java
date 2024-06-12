@@ -3,35 +3,42 @@ import java.lang.*;
 
 class Solution {
     /**
-    Return n-th Fibonacci number.
-    >>> fib(10)
-    55
-    >>> fib(1)
-    1
-    >>> fib(8)
-    21
+    brackets is a string of "<" and ">".
+    return True if every opening bracket has a corresponding closing bracket.
+    
+    >>> correctBracketing("<")
+    false
+    >>> correctBracketing("<>")
+    true
+    >>> correctBracketing("<<><>>")
+    true
+    >>> correctBracketing("><<>")
+    false
      */
-    public int fib(int n) {
+    public boolean correctBracketing(String brackets) {
 
-        if (n == 0) {
-            return 0;
+        int depth = 0;
+        for (char b : brackets.toCharArray()) {
+            if (b == '>') {
+                depth += 1;
+            } else {
+                depth -= 1;
+            }
+            if (depth < 0) {
+                return false;
+            }
         }
-        if (n == 1) {
-            return 1;
-        }
-        if (n == 2) {
-            return 2;
-        }
-        return fib(n - 1) + fib(n - 2);
+        return depth == 0;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.fib(10) == 55,
-                s.fib(1) == 1,
-                s.fib(8) == 21
+                s.correctBracketing("<>"),
+                s.correctBracketing("<<><>>"),
+                !s.correctBracketing("><<>"),
+                !s.correctBracketing("<")
         );
         if (correct.contains(false)) {
             throw new AssertionError();
