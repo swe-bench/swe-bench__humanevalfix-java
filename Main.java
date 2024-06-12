@@ -3,32 +3,37 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given a positive integer n, you have to make a pile of n levels of stones.
-    The first level has n stones.
-    The number of stones in the next level is:
-        - the next odd number if n is odd.
-        - the next even number if n is even.
-    Return the number of stones in each level in a list, where element at index
-    i represents the number of stones in the level (i+1).
-
-    Examples:
-    >>> makeAPile(3)
-    [3, 5, 7]
+    You will be given a string of words separated by commas or spaces. Your task is
+    to split the string into words and return an array of the words.
+    
+    For example:
+    words_string("Hi, my name is John").equals(Arrays.asList("Hi", "my", "name", "is", "John"]
+    words_string("One, two, three, four, five, six").equals(Arrays.asList("One", "two", "three", "four", "five", "six"]
      */
-    public List<Integer> makeAPile(int n) {
+    public List<String> wordStrings(String s) {
 
-        List<Integer> result = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            result.add(n + 2 * i + i);
+        if (s.length() == 0) {
+            return List.of();
         }
-        return result;
+        StringBuilder sb = new StringBuilder();
+
+        for (char letter : s.toCharArray()) {
+            if (letter == ',') {
+                sb.append(',');
+            } else {
+                sb.append(letter);
+            }
+        }
+
+        return new ArrayList<>(Arrays.asList(sb.toString().split("\s+" )));
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.makeAPile(3).equals(Arrays.asList(3, 5, 7))
+                s.wordStrings("Hi, my name is John" ).equals(Arrays.asList("Hi", "my", "name", "is", "John" )),
+                s.wordStrings("One, two, three, four, five, six" ).equals(Arrays.asList("One", "two", "three", "four", "five", "six" ))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
