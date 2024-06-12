@@ -3,49 +3,39 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given a string text, replace all spaces in it with underscores,
-    and if a string has more than 2 consecutive spaces,
-    then replace all consecutive spaces with -
-
-    fixSpaces("Example") == "Example"
-    fixSpaces("Example 1") == "Example_1"
-    fixSpaces(" Example 2") == "_Example_2"
-    fixSpaces(" Example   3") == "_Example-3"
+    Create a function which takes a string representing a file's name, and returns
+    "Yes" if the the file's name is valid, and returns "No" otherwise.
+    A file's name is considered to be valid if and only if all the following conditions
+    are met:
+    - There should not be more than three digits ('0'-'9') in the file's name.
+    - The file's name contains exactly one dot '.'
+    - The substring before the dot should not be empty, and it starts with a letter from
+    the latin alphapet ('a'-'z' and 'A'-'Z').
+    - The substring after the dot should be one of these: ["txt", "exe", "dll"]
+    Examples:
+    file_name_check("example.txt") # => "Yes"
+    file_name_check("1example.dll") # => "No" (the name should start with a latin alphapet letter)
      */
-    public String fixSpaces(String text) {
+    public String filenameCheck(String file_name) {
 
-        StringBuilder sb = new StringBuilder();
-        int start = 0, end = 0;
-        for (int i = 0; i < text.length(); i++) {
-            if (text.charAt(i) == ' ') {
-                end += 1;
-            } else {
-                if (end - start > 2) {
-                    sb.append('-');
-                } else if (end - start > 0) {
-                    sb.append("_".repeat(end - start));
-                }
-                sb.append(text.charAt(i));
-                start = i + 1;
-                end = i + 1;
-            }
+        List<String> suf = Arrays.asList("txt", "exe", "dll");
+        String[] lst = file_name.split("\\." );
+        if (lst.length != 2 || lst[0].isEmpty() || !Character.isLetter(lst[0].charAt(0))) {
+            return "No";
         }
-        if (end - start > 2) {
-            sb.append('-');
-        } else if (end - start > 0) {
-            sb.append("__".repeat(end - start));
+        int t = (int) lst[0].chars().map(x -> (char) x).filter(Character::isDigit).count();
+        if (t > 3) {
+            return "No";
         }
-        return sb.toString();
+        return "Yes";
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.fixSpaces("Example" ), "Example" ),
-                Objects.equals(s.fixSpaces("Example 1" ), "Example_1" ),
-                Objects.equals(s.fixSpaces(" Example 2" ), "_Example_2" ),
-                Objects.equals(s.fixSpaces(" Example   3" ), "_Example-3" )
+                Objects.equals(s.filenameCheck("example.txt" ), "Yes" ),
+                Objects.equals(s.filenameCheck("1example.dll" ), "No" )
         );
         if (correct.contains(false)) {
             throw new AssertionError();
