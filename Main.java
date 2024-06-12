@@ -3,38 +3,69 @@ import java.lang.*;
 
 class Solution {
     /**
-    In this task, you will be given a string that represents a number of apples and oranges
-    that are distributed in a basket of fruit this basket contains
-    apples, oranges, and mango fruits. Given the string that represents the total number of
-    the oranges and apples and an integer that represent the total number of the fruits
-    in the basket return the number of the mango fruits in the basket.
-    for examble:
-    fruitDistribution("5 apples and 6 oranges", 19) ->19 - 5 - 6 = 8
-    fruitDistribution("0 apples and 1 oranges",3) -> 3 - 0 - 1 = 2
-    fruitDistribution("2 apples and 3 oranges", 100) -> 100 - 2 - 3 = 95
-    fruitDistribution("100 apples and 1 oranges",120) -> 120 - 100 - 1 = 19
+    "Given an array representing a branch of a tree that has non-negative integer nodes
+    your task is to pluck one of the nodes and return it.
+    The plucked node should be the node with the smallest even value.
+    If multiple nodes with the same smallest even value are found return the node that has smallest index.
+
+    The plucked node should be returned in a list, [ smalest_value, its index ],
+    If there are no even values or the given array is empty, return [].
+
+    Example 1:
+        Input: [4,2,3]
+        Output: [2, 1]
+        Explanation: 2 has the smallest even value, and 2 has the smallest index.
+
+    Example 2:
+        Input: [1,2,3]
+        Output: [2, 1]
+        Explanation: 2 has the smallest even value, and 2 has the smallest index.
+
+    Example 3:
+        Input: []
+        Output: []
+
+    Example 4:
+        Input: [5, 0, 3, 0, 4, 2]
+        Output: [0, 1]
+        Explanation: 0 is the smallest value, but  there are two zeros,
+                     so we will choose the first zero, which has the smallest index.
+
+    Constraints:
+        * 1 <= nodes.length <= 10000
+        * 0 <= node.value
      */
-    public int fruitDistribution(String s, int n) {
+    public List<Integer> pluck(List<Integer> arr) {
 
-        List<Integer> lis = new ArrayList<>();
-        for (String i : s.split(" ")) {
-            try {
-                lis.add(Integer.parseInt(i));
-            } catch (NumberFormatException ignored) {
-
+        List<Integer> result = new ArrayList<>();
+        if (arr.size() == 0) {
+            return result;
+        }
+        int min = Integer.MAX_VALUE;
+        int minIndex = -1;
+        for (int i = 0; i < arr.size(); i++) {
+            if (arr.get(i) % 2 == 0) {
+                if (arr.get(i) < min) {
+                    min = arr.get(i);
+                    minIndex = i;
+                }
             }
         }
-        return n - 1 - lis.stream().mapToInt(Integer::intValue).sum();
+        if (minIndex != -1) {
+            result.add(minIndex);
+            result.add(min);
+        }
+        return result;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.fruitDistribution("5 apples and 6 oranges",19) == 8,
-                s.fruitDistribution("0 apples and 1 oranges",3) == 2,
-                s.fruitDistribution("2 apples and 3 oranges",100) == 95,
-                s.fruitDistribution("1 apples and 100 oranges",120) == 19
+                s.pluck(new ArrayList<>(Arrays.asList(4, 2, 3))).equals(Arrays.asList(2, 1)),
+                s.pluck(new ArrayList<>(Arrays.asList(1, 2, 3))).equals(Arrays.asList(2, 1)),
+                s.pluck(new ArrayList<>(List.of())).equals(List.of()),
+                s.pluck(new ArrayList<>(Arrays.asList(5, 0, 3, 0, 4, 2))).equals(Arrays.asList(0, 1))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
