@@ -3,30 +3,38 @@ import java.lang.*;
 
 class Solution {
     /**
-    Circular shift the digits of the integer x, shift the digits right by shift
-    and return the result as a string.
-    If shift > number of digits, return digits reversed.
-    >>> circularShift(12, 1)
-    "21"
-    >>> circularShift(12, 2)
-    "12"
-     */
-    public String circularShift(int x, int shift) {
+    Write a function that takes a string as input and returns the sum of the upper characters only'
+    ASCII codes.
 
-        String s = String.valueOf(x);
-        if (shift > s.length()) {
-            return new StringBuilder(s).reverse().toString();
-        } else {
-            return s.substring(0, s.length() - shift) + s.substring(s.length() - shift);
+    Examples:
+        digitSum("") => 0
+        digitSum("abAB") => 131
+        digitSum("abcCd") => 67
+        digitSum("helloE") => 69
+        digitSum("woArBld") => 131
+        digitSum("aAaaaXa") => 153
+     */
+    public int digitSum(String s) {
+
+        int sum = 0;
+        for (char c : s.toCharArray()) {
+            if (Character.isLowerCase(c)) {
+                sum += c;
+            }
         }
+        return sum;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.circularShift(12, 2).equals("12"),
-                s.circularShift(12, 1).equals("21")
+                s.digitSum("") == 0,
+                s.digitSum("abAB") == 131,
+                s.digitSum("abcCd") == 67,
+                s.digitSum("helloE") == 69,
+                s.digitSum("woArBld") == 131,
+                s.digitSum("aAaaaXa") == 153
         );
         if (correct.contains(false)) {
             throw new AssertionError();
