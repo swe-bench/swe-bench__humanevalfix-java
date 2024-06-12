@@ -3,46 +3,50 @@ import java.lang.*;
 
 class Solution {
     /**
-    Write a function that accepts a list of strings.
-    The list contains different words. Return the word with maximum number
-    of unique characters. If multiple strings have maximum number of unique
-    characters, return the one which comes first in lexicographical order.
+    You're a hungry rabbit, and you already have eaten a certain number of carrots,
+    but now you need to eat more carrots to complete the day's meals.
+    you should return an array of [ total number of eaten carrots after your meals,
+                                    the number of carrots left after your meals ]
+    if there are not enough remaining carrots, you will eat all remaining carrots, but will still be hungry.
 
-    findMax(["name", "of", "string"]) == "string"
-    findMax(["name", "enam", "game"]) == "enam"
-    findMax(["aaaaaaa", "bb" ,"cc"]) == ""aaaaaaa"
+    Example:
+    * eat(5, 6, 10) -> [11, 4]
+    * eat(4, 8, 9) -> [12, 1]
+    * eat(1, 10, 10) -> [11, 0]
+    * eat(2, 11, 5) -> [7, 0]
+
+    Variables:
+    @number : integer
+        the number of carrots that you have eaten.
+    @need : integer
+        the number of carrots that you need to eat.
+    @remaining : integer
+        the number of remaining carrots thet exist in stock
+
+    Constrain:
+    * 0 <= number <= 1000
+    * 0 <= need <= 1000
+    * 0 <= remaining <= 1000
+
+    Have fun :)
      */
-    public String findMax(List<String> words) {
+    public List<Integer> eat(int number, int need, int remaining) {
 
-        List<String> words_sort = new ArrayList<>(words);
-        words_sort.sort(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                Set<Character> s1 = new HashSet<>();
-                for (char ch : o1.toCharArray()) {
-                    s1.add(ch);
-                }
-                Set<Character> s2 = new HashSet<>();
-                for (char ch : o2.toCharArray()) {
-                    s2.add(ch);
-                }
-                if (s1.size() > s2.size()) {
-                    return 1;
-                } else {
-                    return -o1.compareTo(o2);
-                }
-            }
-        });
-        return words_sort.get(words_sort.size() - 1);
+        if (need <= remaining) {
+            return Arrays.asList(number + need, number + remaining - need);
+        } else {
+            return Arrays.asList(number + need + remaining, 0);
+        }
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.findMax(new ArrayList<>(Arrays.asList("name", "of", "string"))).equals("string"),
-                s.findMax(new ArrayList<>(Arrays.asList("name", "enam", "game"))).equals("enam"),
-                s.findMax(new ArrayList<>(Arrays.asList("aaaaaaa", "bb", "cc"))).equals("aaaaaaa")
+                s.eat(5, 6, 10).equals(Arrays.asList(11, 4)),
+                s.eat(4, 8, 9).equals(Arrays.asList(12, 1)),
+                s.eat(1, 10, 10).equals(Arrays.asList(11, 0)),
+                s.eat(2, 11, 5).equals(Arrays.asList(7, 0))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
