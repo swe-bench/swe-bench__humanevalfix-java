@@ -1,40 +1,28 @@
 import java.util.*;
 import java.lang.*;
+import java.util.stream.Collectors;
 
 class Solution {
     /**
-    Return list of prime factors of given integer in the order from smallest to largest.
-    Each of the factors should be listed number of times corresponding to how many times it appeares in factorization.
-    Input number should be equal to the product of all factors
-    >>> factorize(8)
-    [2, 2, 2]
-    >>> factorize(25)
-    [5, 5]
-    >>> factorize(70)
-    [2, 5, 7]
+    From a list of integers, remove all elements that occur more than once.
+    Keep order of elements left the same as in the input.
+    >>> removeDuplicates(Array.asList(1, 2, 3, 2, 4))
+    [1, 3, 4]
      */
-    public List<Integer> factorize(int n) {
+    public List<Integer> removeDuplicates(List<Integer> numbers) {
 
-        List<Integer> fact = new ArrayList<>();
-        int i = 0;
-        while (n > 1) {
-            if (n % i == 0) {
-                fact.add(i);
-                n /= i;
-            } else {
-                i++;
-            }
+        Map<Integer, Integer> c = new HashMap<>();
+        for (int i : numbers) {
+            c.put(i, c.getOrDefault(i, 0) + 1);
         }
-        return fact;
+        return numbers.stream().filter(i -> c.get(i) > 1).collect(Collectors.toList());
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.factorize(8).equals(Arrays.asList(2, 2, 2)),
-                s.factorize(25).equals(Arrays.asList(5,5)),
-                s.factorize(70).equals(Arrays.asList(2,5,7))
+                s.removeDuplicates(new ArrayList<>(Arrays.asList(1, 2, 3, 2,4))).equals(Arrays.asList(1,  3, 4))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
