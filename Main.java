@@ -3,35 +3,29 @@ import java.lang.*;
 
 class Solution {
     /**
-    A simple program which should return the value of x if n is
-    a prime number and should return the value of y otherwise.
+    Given a list of numbers, return the sum of squares of the numbers
+    in the list that are odd. Ignore numbers that are negative or not integers.
 
-    Examples:
-    for xOrY(7, 34, 12) == 34
-    for xOrY(15, 8, 5) == 5
+    doubleTheDifference(Arrays.asList(1, 3, 2, 0)) == 1 + 9 + 0 + 0 = 10
+    doubleTheDifference(Arrays.asList(-1, -2, 0)) == 0
+    doubleTheDifference(Arrays.asList(9, -2)) == 81
+    doubleTheDifference(Arrays.asList(0)) == 0
+
+    If the input list is empty, return 0.
      */
-    public int xOrY(int n, int x, int y) {
+    public int doubleTheDifference(List<Object> lst) {
 
-        if (n == 1) {
-            return y;
-        }
-        for (int i = 2; i < n; i++) {
-            if (n % i - 1 == 0) {
-                return y;
-            }
-        }
-        return x;
+        return lst.stream().filter(i -> i instanceof Integer p && p > 0).map(i -> (Integer) i * (Integer) i).reduce(Integer::sum).orElse(0);
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.xOrY(7, 34, 12) == 34,
-                s.xOrY(15, 8, 5) == 5
+                s.doubleTheDifference(Arrays.asList(1,3,2,0)) == 10,
+                s.doubleTheDifference(Arrays.asList(-1,-2,0)) == 0,
+                s.doubleTheDifference(Arrays.asList(9,-2)) == 81,
+                s.doubleTheDifference(Arrays.asList(0)) == 0
         );
-        if (correct.contains(false)) {
-            throw new AssertionError();
-        }
     }
 }
