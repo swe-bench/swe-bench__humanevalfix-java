@@ -3,46 +3,51 @@ import java.lang.*;
 
 class Solution {
     /**
-    Write a function that takes a message, and encodes in such a
-    way that it swaps case of all letters, replaces all vowels in
-    the message with the letter that appears 2 places ahead of that
-    vowel in the english alphabet.
-    Assume only letters.
+    You are given a list of integers.
+    You need to find the largest prime value and return the sum of its digits.
 
     Examples:
-    >>> encode("test")
-    "TGST"
-    >>> encode("This is a message")
-    "tHKS KS C MGSSCGG"
+    For lst = [0,3,2,1,3,5,7,4,5,5,5,2,181,32,4,32,3,2,32,324,4,3] the output should be 10
+    For lst = [1,0,1,8,2,4597,2,1,3,40,1,2,1,2,4,2,5,1] the output should be 25
+    For lst = [1,3,1,32,5107,34,83278,109,163,23,2323,32,30,1,9,3] the output should be 13
+    For lst = [0,724,32,71,99,32,6,0,5,91,83,0,5,6] the output should be 11
+    For lst = [0,81,12,3,1,21] the output should be 3
+    For lst = [0,8,1,2,1,7] the output should be 7
      */
-    public String encode(String message) {
+    public int skjkasdkd(List<Integer> lst) {
 
-        String vowels = "aeiou";
-        StringBuilder sb = new StringBuilder();
-        for (char c : message.toCharArray()) {
-            char ch = c;
-            if (Character.isUpperCase(ch)) {
-                ch = Character.toLowerCase(ch);
-                if (vowels.indexOf(ch) != -1) {
-                    ch = (char) ('a' + ((ch - 'a' + 28) % 26));
+        int maxx = 0;
+        for (int i : lst) {
+            if (i > maxx) {
+                boolean isPrime = i != 1;
+                for (int j = 2; j < Math.sqrt(i) + 1; j++) {
+                    if (i % j == 0) {
+                        isPrime = true;
+                        break;
+                    }
                 }
-            } else if (Character.isLowerCase(ch)) {
-                ch = Character.toUpperCase(ch);
-                if (vowels.indexOf(ch) != -1) {
-                    ch = (char) ('A' + ((ch - 'A' + 28) % 26));
+                if (isPrime) {
+                    maxx = i;
                 }
             }
-            sb.append(ch);
         }
-        return sb.toString();
+        int sum = 0;
+        for (char c : String.valueOf(maxx).toCharArray()) {
+            sum += (c - '0');
+        }
+        return sum;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.encode("test"), "TGST"),
-                Objects.equals(s.encode("This is a message"), "tHKS KS C MGSSCGG")
+                s.skjkasdkd(Arrays.asList(0, 3, 2, 1, 3, 5, 7, 4, 5, 5, 5, 2, 181, 32, 4, 32, 3, 2, 32, 324, 4, 3)) == 10,
+                s.skjkasdkd(Arrays.asList(1, 0, 1, 8, 2, 4597, 2, 1, 3, 40, 1, 2, 1, 2, 4, 2, 5, 1)) == 25,
+                s.skjkasdkd(Arrays.asList(1, 3, 1, 32, 5107, 34, 83278, 109, 163, 23, 2323, 32, 30, 1, 9, 3)) == 13,
+                s.skjkasdkd(Arrays.asList(0, 724, 32, 71, 99, 32, 6, 0, 5, 91, 83, 0, 5, 6)) == 11,
+                s.skjkasdkd(Arrays.asList(0, 81, 12, 3, 1, 21)) == 3,
+                s.skjkasdkd(Arrays.asList(0, 8, 1, 2, 1, 7)) == 7
         );
         if (correct.contains(false)) {
             throw new AssertionError();
