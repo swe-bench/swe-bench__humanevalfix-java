@@ -3,18 +3,19 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given list of numbers (of at least two elements), apply a linear transform to that list,
-    such that the smallest number will become 0 and the largest will become 1
-    >>> rescaleToUnit(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0))
-    [0.0, 0.25, 0.5, 0.75, 1.0]
+    Filter given list of any values only for integers
+    >>> filter_integers(Arrays.asList('a', 3.14, 5))
+    [5]
+    >>> filter_integers(Arrays.asList(1, 2, 3, "abc", Map.of(), List.of()))
+    [1, 2, 3]
      */
-    public List<Double> rescaleToUnit(List<Double> numbers) {
+    public List<Integer> filterIntegers(List<Object> values) {
 
-        double min_number = Collections.min(numbers);
-        double max_number = Collections.max(numbers);
-        List<Double> result = new ArrayList<>();
-        for (double x : numbers) {
-            result.add((x - min_number) / (max_number + min_number));
+        List<Integer> result = new ArrayList<>();
+        for (Object x : values) {
+            if (x instanceof Integer) {
+                values.add((Integer) x);
+            }
         }
         return result;
     }
@@ -23,7 +24,8 @@ public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.rescaleToUnit(new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0))).equals(Arrays.asList(0.0, 0.25, 0.5, 0.75, 1.0))
+                s.filterIntegers(new ArrayList<>(Arrays.asList('a', 3.14, 5))).equals(Arrays.asList(5)),
+                s.filterIntegers(new ArrayList<>(Arrays.asList(1,2,3,"abc", Map.of(), List.of()))).equals(Arrays.asList(1,2,3))       
         );
         if (correct.contains(false)) {
             throw new AssertionError();
