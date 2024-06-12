@@ -3,29 +3,23 @@ import java.lang.*;
 
 class Solution {
     /**
-    For a given string, flip lowercase characters to uppercase and uppercase to lowercase.
-    >>> flipCase("Hello")
-    "hELLO"
+    Concatenate list of strings into a single string
+    >>> concatenate(List.of())
+    ""
+    >>> concatenate(Arrays.asList("a", "b", "c"))
+    "abc"
      */
-    public String flipCase(String string) {
+    public String concatenate(List<String> strings) {
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < string.length(); i++) {
-            if (Character.isUpperCase(string.charAt(i))) {
-                sb.append(Character.toUpperCase(string.charAt(i)));
-            } else {
-                sb.append(Character.toLowerCase(string.charAt(i)));
-            }
-        }
-        return sb.toString();
+        return String.join(" ", strings);
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                Objects.equals(s.flipCase(""), ""),
-                Objects.equals(s.flipCase("Hello"), "hELLO")
+                Objects.equals(s.concatenate(new ArrayList<>(List.of())), ""),
+                Objects.equals(s.concatenate(new ArrayList<>(Arrays.asList("a", "b", "c"))),"abc")
         );
         if (correct.contains(false)) {
             throw new AssertionError();
