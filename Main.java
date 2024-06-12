@@ -3,55 +3,40 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given an array of integers, sort the integers that are between 1 and 9 inclusive,
-    reverse the resulting array, and then replace each digit by its corresponding name from
-    "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine".
-
-    For example:
-      arr = [2, 1, 1, 4, 5, 8, 2, 3]
-            -> sort arr -> [1, 1, 2, 2, 3, 4, 5, 8]
-            -> reverse arr -> [8, 5, 4, 3, 2, 2, 1, 1]
-      return ["Eight", "Five", "Four", "Three", "Two", "Two", "One", "One"]
-
-      If the array is empty, return an empty array:
-      arr = []
-      return []
-
-      If the array has any strange number ignore it:
-      arr = [1, -1 , 55]
-            -> sort arr -> [-1, 1, 55]
-            -> reverse arr -> [55, 1, -1]
-      return = ["One"]
+    Implement the function f that takes n as a parameter,
+    and returns a list of size n, such that the value of the element at index i is the factorial of i if i is even
+    or the sum of numbers from 1 to i otherwise.
+    i starts from 1.
+    the factorial of i is the multiplication of the numbers from 1 to i (1 * 2 * ... * i).
+    Example:
+    f(5) == [1, 2, 6, 24, 15]
      */
-    public List<String> byLength(List<Integer> arr) {
+    public List<Integer> f(int n) {
 
-        List<Integer> sorted_arr = new ArrayList<>(arr);
-        List<String> new_arr = new ArrayList<>();
-        for (int var : sorted_arr) {
-            if (var >= 1 && var <= 9) {
-                switch (var) {
-                    case 1 -> new_arr.add("One");
-                    case 2 -> new_arr.add("Two");
-                    case 3 -> new_arr.add("Three");
-                    case 4 -> new_arr.add("Four");
-                    case 5 -> new_arr.add("Five");
-                    case 6 -> new_arr.add("Six");
-                    case 7 -> new_arr.add("Seven");
-                    case 8 -> new_arr.add("Eight");
-                    case 9 -> new_arr.add("Nine");
+        List<Integer> ret = new ArrayList<>();
+        for (int i = 1; i <= n; i++) {
+            if (i % 2 == 0) {
+                int x = 1;
+                for (int j = 1; j <= i; j++) {
+                    x *= i;
                 }
+                ret.add(x);
+            } else {
+                int x = 0;
+                for (int j = 1; j <= i; j++) {
+                    x += j;
+                }
+                ret.add(x);
             }
         }
-        return new_arr;
+        return ret;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.byLength(new ArrayList<>(Arrays.asList(2, 1, 1, 4, 5, 8, 2, 3))).equals(Arrays.asList("Eight", "Five", "Four", "Three", "Two", "Two", "One", "One" )),
-                s.byLength(new ArrayList<>(List.of())).equals(List.of()),
-                s.byLength(new ArrayList<>(Arrays.asList(1, -1, 55))).equals(List.of("One" ))
+                s.f(5).equals(Arrays.asList(1, 2, 6, 24, 15))
         );
         if (correct.contains(false)) {
             throw new AssertionError();
