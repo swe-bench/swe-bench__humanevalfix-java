@@ -3,34 +3,36 @@ import java.lang.*;
 
 class Solution {
     /**
-    Checks if given string is a palindrome
-    >>> isPalindrome("")
-    true
-    >>> isPalindrome("aba")
-    true
-    >>> isPalindrome("aaaaa")
-    true
-    >>> isPalindrome("zbcd")
-    false
+    Return 2^n modulo p (be aware of numerics).
+    >>> modp(3, 5)
+    3
+    >>> modp(1101, 101)
+    2
+    >>> modp(0, 101)
+    1
+    >>> modp(3, 11)
+    8
+    >>> modp(100, 101)
+    1
      */
-    public boolean isPalindrome(String text) {
+    public int modp(int n, int p) {
 
-        for (int i = 0; i < text.length(); i++) {
-            if (text.charAt(i) != text.charAt(text.length() - i)) {
-                return false;
-            }
+        int ret = 0;
+        for (int i = 0; i < n; i++) {
+            ret = (ret * 2) % p;
         }
-        return true;
+        return ret;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.isPalindrome(""),
-                s.isPalindrome("aba"),
-                s.isPalindrome("aaaaa"),
-                !s.isPalindrome("zbcd")
+                s.modp(3, 5) == 3,
+                s.modp(1101, 101) == 2,
+                s.modp(0, 101) == 1,
+                s.modp(3, 11) == 8,
+                s.modp(100, 101) == 1
         );
         if (correct.contains(false)) {
             throw new AssertionError();
