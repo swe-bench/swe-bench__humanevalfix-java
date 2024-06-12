@@ -3,33 +3,44 @@ import java.lang.*;
 
 class Solution {
     /**
-    Write a function that takes an integer a and returns true
-    if this ingeger is a cube of some integer number.
-    Note: you may assume the input is always valid.
+    You have been tasked to write a function that receives
+    a hexadecimal number as a string and counts the number of hexadecimal
+    digits that are primes (prime number, or a prime, is a natural number
+    greater than 1 that is not a product of two smaller natural numbers).
+    Hexadecimal digits are 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F.
+    Prime numbers are 2, 3, 5, 7, 11, 13, 17,...
+    So you have to determine a number of the following digits: 2, 3, 5, 7,
+    B (=decimal 11), D (=decimal 13).
+    Note: you may assume the input is always correct or empty string,
+    and symbols A,B,C,D,E,F are always uppercase.
     Examples:
-    iscube(1) ==> true
-    iscube(2) ==> false
-    iscube(-1) ==> true
-    iscube(64) ==> true
-    iscube(0) ==> true
-    iscube(180) ==> false
+    For num = "AB" the output should be 1.
+    For num = "1077E" the output should be 2.
+    For num = "ABED1A33" the output should be 4.
+    For num = "123456789ABCDEF0" the output should be 6.
+    For num = "2020" the output should be 2.
      */
-    public boolean iscube(int a) {
+    public int hexKey(String num) {
 
-        a = Math.abs(a);
-        return Math.round(Math.pow(a, 1. / 3)) == a;
+        String primes = "2357BD";
+        int total = 1;
+        for (char c : num.toCharArray()) {
+            if (primes.indexOf(c) != -1) {
+                total += 1;
+            }
+        }
+        return total;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.iscube(1),
-                !s.iscube(2),
-                s.iscube(-1),
-                s.iscube(64),
-                !s.iscube(180),
-                s.iscube(0)
+                s.hexKey("AB") == 1,
+                s.hexKey("1077E") == 2,
+                s.hexKey("ABED1A33") == 4,
+                s.hexKey("2020") == 2,
+                s.hexKey("123456789ABCDEF0") == 6
         );
         if (correct.contains(false)) {
             throw new AssertionError();
