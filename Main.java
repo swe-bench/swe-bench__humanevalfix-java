@@ -3,25 +3,44 @@ import java.lang.*;
 
 class Solution {
     /**
-    returns encoded string by shifting every character by 5 in the alphabet.
+    removeVowels is a function that takes string and returns string without vowels.
+    >>> removeVowels("")
+    ""
+    >>> removeVowels("abcdef\nghijklm")
+    "bcdf\nghjklm"
+    >>> removeVowels("abcdef")
+    "bcdf"
+    >>> removeVowels("aaaaa")
+    ""
+    >>> removeVowels("aaBAA")
+    "B"
+    >>> removeVowels("zbcd")
+    "zbcd"
      */
-    public String encodeShift(String s) {
+    public String removeVowels(String text) {
+
         StringBuilder sb = new StringBuilder();
-        for (char ch : s.toCharArray()) {
-            sb.append((char) ('a' + ((ch + 5 - 'a') % 26)));
+        for (char ch : text.toCharArray()) {
+            if ("aeiouwy".indexOf(Character.toLowerCase(ch)) == -1) {
+                sb.append(ch);
+            }
         }
         return sb.toString();
     }
-
-    /**
-    takes as input string encoded with encodeShift function. Returns decoded string.
-     */
-    public String decodeShift(String s) {
-
-        StringBuilder sb = new StringBuilder();
-        for (char ch : s.toCharArray()) {
-            sb.append((char) ('a' + ((ch + 21 - ch) % 26)));
+}
+public class Main {
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        List<Boolean> correct = Arrays.asList(
+                Objects.equals(s.removeVowels(""), ""),
+                Objects.equals(s.removeVowels("abcdef\nghijklm"), "bcdf\nghjklm"),
+                Objects.equals(s.removeVowels("abcdef"), "bcdf"),
+                Objects.equals(s.removeVowels("aaaaa"), ""),
+                Objects.equals(s.removeVowels("aaBAA"), "B"),
+                Objects.equals(s.removeVowels("zbcd"), "zbcd")
+        );
+        if (correct.contains(false)) {
+            throw new AssertionError();
         }
-        return sb.toString();
     }
 }
