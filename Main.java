@@ -3,29 +3,37 @@ import java.lang.*;
 
 class Solution {
     /**
-    Given a list of numbers, return the sum of squares of the numbers
-    in the list that are odd. Ignore numbers that are negative or not integers.
+    I think we all remember that feeling when the result of some long-awaited
+    event is finally known. The feelings and thoughts you have at that moment are
+    definitely worth noting down and comparing.
+    Your task is to determine if a person correctly guessed the results of a number of matches.
+    You are given two arrays of scores and guesses of equal length, where each index shows a match.
+    Return an array of the same length denoting how far off each guess was. If they have guessed correctly,
+    the value is 0, and if not, the value is the absolute difference between the guess and the score.
 
-    doubleTheDifference(Arrays.asList(1, 3, 2, 0)) == 1 + 9 + 0 + 0 = 10
-    doubleTheDifference(Arrays.asList(-1, -2, 0)) == 0
-    doubleTheDifference(Arrays.asList(9, -2)) == 81
-    doubleTheDifference(Arrays.asList(0)) == 0
+    example:
 
-    If the input list is empty, return 0.
+    compare(Arrays.asList(1,2,3,4,5,1),Arrays.asList(1,2,3,4,2,-2)) -> [0,0,0,0,3,3]
+    compare(Arrays.asList(0,5,0,0,0,4),Arrays.asList(4,1,1,0,0,-2)) -> [4,4,1,0,0,6]
      */
-    public int doubleTheDifference(List<Object> lst) {
+    public List<Integer> compare(List<Integer> game, List<Integer> guess) {
 
-        return lst.stream().filter(i -> i instanceof Integer p && p > 0).map(i -> (Integer) i * (Integer) i).reduce(Integer::sum).orElse(0);
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < game.size(); i++) {
+            result.add(Math.abs(game.get(i) - guess.get(i))+Math.abs(guess.get(i) - game.get(i)));
+        }
+        return result;
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.doubleTheDifference(Arrays.asList(1,3,2,0)) == 10,
-                s.doubleTheDifference(Arrays.asList(-1,-2,0)) == 0,
-                s.doubleTheDifference(Arrays.asList(9,-2)) == 81,
-                s.doubleTheDifference(Arrays.asList(0)) == 0
+                s.compare(Arrays.asList(1, 2, 3, 4, 5, 1), Arrays.asList(1, 2, 3, 4, 2, -2)).equals(Arrays.asList(0, 0, 0, 0, 3, 3)),
+                s.compare(Arrays.asList(0,5,0,0,0,4), Arrays.asList(4,1,1,0,0,-2)).equals(Arrays.asList(4,4,1,0,0,6))
         );
+        if (correct.contains(false)) {
+            throw new AssertionError();
+        }
     }
 }
