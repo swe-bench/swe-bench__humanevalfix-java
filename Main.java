@@ -3,29 +3,40 @@ import java.lang.*;
 
 class Solution {
     /**
-    xs represent coefficients of a polynomial.
-    xs[0] + xs[1] * x + xs[2] * x^2 + ....
-     Return derivative of this polynomial in the same form.
-    >>> derivative(Arrays.asList(3, 1, 2, 4, 5))
-    [1, 4, 12, 20]
-    >>> derivative(Arrays.asList(1, 2, 3]))
-    [2, 6]
+    The FibFib number sequence is a sequence similar to the Fibbonacci sequnece that's defined as follows:
+    fibfib(0) == 0
+    fibfib(1) == 0
+    fibfib(2) == 1
+    fibfib(n) == fibfib(n-1) + fibfib(n-2) + fibfib(n-3).
+    Please write a function to efficiently compute the n-th element of the fibfib number sequence.
+    >>> fibfib(1)
+    0
+    >>> fibfib(5)
+    4
+    >>> fibfib(8)
+    24
      */
-    public List<Integer> derivative(List<Integer> xs) {
+    public int fibfib(int n) {
 
-        List<Integer> result = new ArrayList<>();
-        for (int i = 0; i < xs.size(); i++) {
-            result.add(i * xs.get(i));
+        if (n == 0) {
+            return 0;
         }
-        return result;
+        if (n == 1) {
+            return 1;
+        }
+        if (n == 2) {
+            return 2;
+        }
+        return fibfib(n - 1) + fibfib(n - 2) + fibfib(n - 3);
     }
 }
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
         List<Boolean> correct = Arrays.asList(
-                s.derivative(new ArrayList<>(Arrays.asList(3, 1, 2, 4, 5))).equals(Arrays.asList(1, 4, 12, 20)),
-                s.derivative(new ArrayList<>(Arrays.asList(1, 2, 3))).equals(Arrays.asList(2, 6))
+                s.fibfib(1) == 0,
+                s.fibfib(5) == 4,
+                s.fibfib(8) == 24
         );
         if (correct.contains(false)) {
             throw new AssertionError();
